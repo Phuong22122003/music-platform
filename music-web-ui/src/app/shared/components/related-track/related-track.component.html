@@ -1,0 +1,57 @@
+@if (relatedTrackInput) {
+<app-card
+  [goTo]="goTo"
+  [toggleLike]="toggleLike"
+  [toggleFollow]="toggleFollow"
+  [playTrack]="playTrack"
+  [pauseTrack]="pauseTrack"
+  [isPlay]="isPlaying"
+  (toggleLike)="toggleLike()"
+  (toggleFollow)="toggleLike()"
+  (unlikeEvent)="unlike($event)"
+  [isFollowed]="isFollowed"
+  [isLiked]="isLiked"
+  [idToEmitDelete]="this.relatedTrack.playlistId"
+  [trackIdsToAddPlayList]="trackIdsToAddPlayList"
+  (unlikeEvent)="unlike($event)"
+  [isOwner]="loggedUserId === relatedTrackInput.userId"
+  [addToNextUp]="addToNextUp"
+>
+  <div class="flex">
+    <div class="relative">
+      <div
+        class="border-b-[25px] border-b-[#080b0c] border-r-[25px] border-r-[#6a6d6c]"
+      >
+        <div
+          class="w-full flex-grow-1 border-[20px] border-y-[#8b8882] border-x-[#b6b3ac]"
+        >
+          <img
+            [src]="relatedTrack.trackPath ? coverUrl + '/' +
+          relatedTrack.trackPath : `/assets/images/music-placeholder.png`"
+            alt="Song"
+            class="w-full"
+          />
+        </div>
+      </div>
+      <p class="text-white text-sm absolute bottom-0 left-1 w-full">
+        {{ relatedTrack?.trackName || "" }}
+      </p>
+      <div class="flex flex-col item-center absolute right-0 top-0 h-full">
+        <img src="assets/soundcloud.svg" alt="SoundCloud" class="w-4 h-4" />
+        <div class="text-white text-xs rotate flex-grow-1 p-1">
+          <p class="text-center">RELATED TRACKS</p>
+          <!-- bg-[#8b8884]bg-[#0b0c0b] -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div footer class="pt-[2px] flex flex-col">
+    <a class="text-sm truncate">{{ relatedTrack?.trackName || "" }}</a>
+    <!-- Tên tác giả -> truyền tên tác giả -->
+    <a class="text-xs text-gray-500 m-0">
+      <span>{{ relatedTrack?.authors || "" }}</span>
+    </a>
+  </div>
+</app-card>
+
+}

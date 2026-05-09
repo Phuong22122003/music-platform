@@ -1,0 +1,52 @@
+<div
+  class="overflow-hidden w-[480px] transition-height duration-500 absolute bottom-[200%] right-full bg-white shadow-2xl py-6"
+  [ngClass]="{
+    'min-h-[476px] opacity-100 visible': isOpenNextUpList,
+    'min-h-0 opacity-0 invisible': !isOpenNextUpList
+  }"
+>
+  <div
+    class="px-4 flex items-center justify-between text-[16px] text-[#333333]"
+  >
+    <span>Next up</span>
+    <div class="flex gap-4 items-center">
+      <button
+        class="hover:border-[#ccc] cursor-pointer py-[2px] px-[10px] border border-[#e5e5e5] rounded-sm"
+        type="button"
+        (click)="onClear()"
+      >
+        Clear
+      </button>
+      <i
+        (click)="onClose()"
+        class="text-[21px] cursor-pointer fa-solid fa-xmark"
+      ></i>
+    </div>
+  </div>
+  <div class="w-full h-[1px] bg-[#e5e5e5] my-2"></div>
+  <div class="">
+    <!-- <app-next-up-item></app-next-up-item>
+    <app-next-up-item></app-next-up-item>
+    <app-next-up-item></app-next-up-item> -->
+    <div cdkDropListGroup>
+      <div
+        cdkDropList
+        #trackList="cdkDropList"
+        [cdkDropListData]="tracks"
+        (cdkDropListDropped)="onDrop($event)"
+        class="track-list flex flex-col gap-4"
+      >
+        <app-next-up-item
+          @listAnimation
+          *ngFor="let track of tracks; let i = index; trackBy: trackById"
+          cdkDrag
+          [track]="track"
+          [trackIndex]="i"
+          [isPlaying]="i === playingTrackIndex && !isFirstTime"
+          [ngClass]="{ 'move-up': deletedIndex >= 0 && i >= deletedIndex }"
+          (deleteEvent)="onDeleteByTrackIndex($event)"
+        ></app-next-up-item>
+      </div>
+    </div>
+  </div>
+</div>

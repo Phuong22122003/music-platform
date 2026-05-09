@@ -1,0 +1,36 @@
+:host {
+  --progress-width: 0; /* Giá trị mặc định */
+}
+
+
+
+input[type='range']::-webkit-slider-thumb {
+  background-color: transparent;
+  height:10px;
+  width:10px;
+  border-radius: 50%;
+  -webkit-appearance: none !important;
+}
+
+.modal:hover input[type='range']::-webkit-slider-thumb {
+  background-color: #ff5500;
+  cursor: pointer;
+}
+:host {
+  --progress-width: 0; /* Giá trị mặc định */
+}
+
+
+
+input[type='range']::-webkit-slider-thumb {
+  background-color: transparent;
+  height:10px;
+  width:10px;
+  border-radius: 50%;
+  -webkit-appearance: none !important;
+}
+
+.modal:hover input[type='range']::-webkit-slider-thumb {
+  background-color: #ff5500;
+  cursor: pointer;
+}

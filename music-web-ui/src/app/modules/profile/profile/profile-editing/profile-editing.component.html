@@ -1,0 +1,89 @@
+<div
+  *ngIf="rendered"
+  class="fixed inset-0 flex justify-center items-center bg-[hsla(0,0%,94.9%,.9)] z-99999"
+>
+  <div
+    [@slideModal]="show ? '*' : 'void'"
+    (@slideModal.done)="onAnimationDone($event)"
+    class="bg-white shadow-2xs p-4"
+  >
+    <span class="block w-fit ml-auto" (click)="onClose()"
+      ><i class="fa-solid fa-xmark"></i
+    ></span>
+    <div class="text-[20px] border-b-1 border-gray-200 mb-2">
+      Edit your profile
+    </div>
+
+    <app-dynamic-form
+      (image)="onAvatarSelected($event)"
+      (submit)="onSubmit($event)"
+      [formFields]="[{
+      name: 'image',
+      label: 'Upload Image',
+      type: 'image',
+      options: {
+        widthImage: 260,
+        heighImage: 260,
+        defaultValue: avatarSelected
+      },
+    },
+    {
+      columnSpan: 2,
+      name: 'displayName',
+      label: 'Display Name',
+      type: 'text',
+      placeholder: 'Enter display name',
+      options: {
+        defaultValue: userProfile.displayName
+      },
+      validators: [Validators.required],
+
+    },
+    {
+      columnSpan: 1,
+      name: 'firstName',
+      label: 'First Name',
+      type: 'text',
+      validators: [Validators.required],
+      options: {
+        defaultValue: userProfile.firstName
+      },
+      placeholder: 'Enter first name',
+    },
+    {
+      columnSpan: 1,
+      name: 'lastName',
+      label: 'Last Name',
+      type: 'text',
+      placeholder: 'Enter main artists',
+      options: {
+        defaultValue: userProfile.lastName
+      },
+      validators: [Validators.required],
+    },
+    {
+      columnSpan: 2,
+      name: 'dob',
+      label: 'Date Of Birth',
+      type: 'date',
+      options: {
+        defaultValue: userProfile.dob
+      },
+    },
+    {
+      columnSpan: 2,
+      name: 'gender',
+      label: 'Gender',
+      type: 'radio',
+      dataSelect: [{ id: 0, name: 'Male' }, { id: 1, name: 'Female' }],
+      options: {
+        defaultValue: userProfile.gender === null || userProfile.gender === undefined
+      ? undefined
+      : userProfile.gender ? 1 : 0
+      },
+
+    }
+  ]"
+    ></app-dynamic-form>
+  </div>
+</div>

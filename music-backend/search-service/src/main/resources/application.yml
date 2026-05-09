@@ -1,0 +1,27 @@
+
+spring:
+  application:
+    name: search-service
+  elasticsearch:
+    uris: ${ELASTICSEARCH:http://localhost:9200}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_CONNECTION:localhost:9094}
+    consumer:
+      group-id: search_group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      properties:
+        # spring.json.trusted.packages: com.MusicPlatForm.search_service.Dto.Request
+        spring.json.trusted.packages: "*"
+
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+server:
+  port: 8084
+  servlet:
+    context-path: /search-service
+

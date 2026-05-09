@@ -1,0 +1,30 @@
+<app-card>
+  <div
+    class="flex items-center justify-between px-2 py-1 text-[12px] bold mt-[5px]"
+  >
+    <span>{{ artist.displayName }}</span>
+    <i class="fa-brands fa-soundcloud"></i>
+  </div>
+  <div class="items-center">
+    <img
+      [src]="artist.avatar ? `${avatarUrl}/${artist.avatar}` : '/assets/images/user-placeholder.jpg'"
+      alt=""
+      class="rounded-full w-[110px] h-[110px] mx-auto"
+    />
+  </div>
+  <div class="flex items-center justify-around mb-[5px] py-1">
+    <div class="w-[50%]">
+      <div class="w-full border-b border-black relative">
+        <div
+          class="absolute right-0 top-1/2 translate-y-[-50%] border-t-[5px] border-b-[5px] border-l-[8px] border-t-transparent border-b-transparent border-l-black"
+        ></div>
+      </div>
+    </div>
+    <span class="text-[12px]">top tracks</span>
+  </div>
+
+  <div footer class="pt-2 flex flex-col">
+    <a class="text-sm mt-1 truncate">Phương Nguyễn</a>
+    <a class="text-xs text-gray-500">Top tracks</a>
+  </div>
+</app-card>

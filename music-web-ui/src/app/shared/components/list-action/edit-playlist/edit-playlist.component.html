@@ -1,0 +1,93 @@
+<div class="p-4">
+  <div class="flex space-x-6 border-b border-gray-600 pb-2 mb-4">
+    <span
+      class="cursor-pointer font-semibold"
+      [class.text-black]="activeTab === 'info'"
+      [class.text-gray-400]="activeTab !== 'info'"
+      (click)="activeTab = 'info'"
+    >
+      Basic info
+    </span>
+    <span
+      class="cursor-pointer font-semibold"
+      [class.text-black]="activeTab === 'tracks'"
+      [class.text-gray-400]="activeTab !== 'tracks'"
+      (click)="activeTab = 'tracks'"
+    >
+      Tracks
+    </span>
+  </div>
+
+  <!-- Basic Info -->
+  <div *ngIf="activeTab === 'info'">
+    <app-dynamic-form
+      [formFields]="formFields"
+      (submit)="onSubmitInfo($event)"
+      (image)="onImageSelected($event)"
+    ></app-dynamic-form>
+  </div>
+
+  <!-- Tracks Tab -->
+  <div *ngIf="activeTab === 'tracks'" class="space-y-4">
+    <div
+      *ngFor="
+        let track of newTracklist.tracks;
+        trackBy: trackById;
+        let i = index
+      "
+      class="flex items-center justify-between"
+    >
+      <div class="flex items-center space-x-3">
+        <img
+          alt="Track cover"
+          [src]="
+            track.coverImageName
+              ? coverUrl + '/' + track.coverImageName
+              : '/assets/images/music-placeholder.png'
+          "
+          class="w-10 h-10 object-cover rounded"
+        />
+        <div>
+          <a [routerLink]="['/profile', track.userId]">
+            <span class="text-sm text-gray-400">{{
+              listDisplayNameTrack[i]
+            }}</span>
+          </a>
+          <a [routerLink]="['/song', track.id]"
+            ><span class="text-black font-semibold block">{{
+              track.title
+            }}</span></a
+          >
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="text-gray-400 text-sm">{{ track.duration }}</span>
+        <button
+          (click)="removeTrack(track.id)"
+          class="text-gray-400 hover:text-red-500 text-lg"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <div class="flex justify-end space-x-4 mt-6">
+      <button
+        (click)="onCancelTracklist()"
+        class="hover:opacity-90 cursor-pointer px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="onSubmitTracklist()"
+        [ngClass]="{
+          'opacity-50': newTracklist.tracks.length === tracklist.tracks.length,
+        }"
+        class="px-4 py-2 bg-[var(--primary-orange-color)] text-white rounded"
+        [disabled]="newTracklist.tracks.length === tracklist.tracks.length"
+      >
+        Save changes
+      </button>
+    </div>
+  </div>
+</div>

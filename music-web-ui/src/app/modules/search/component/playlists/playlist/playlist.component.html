@@ -1,0 +1,37 @@
+<app-track-info-and-wave
+  #trackComponent
+  (clickPlayButton)="togglePlay($event)"
+  [useForPlaylistAndAlbum]="true"
+  class="block mb-8"
+>
+  <div list>
+    <div class="h-60 overflow-scroll scrollbar-hide">
+      <ng-container *ngFor="let track of playlist.tracks; let i = index">
+        <div
+          class="hover:bg-gray-200 p-2 flex justify-between items-center cursor-pointer"
+          [class.playing]="isPlaying && currentTrack.id === track.id"
+          (click)="playNext(track)"
+        >
+          <div class="flex gap-2 items-center">
+            <img
+              src="{{ track.cover_image_path }}"
+              class="w-[32px] h-[32px]"
+              alt=""
+            />
+            <div class="flex items-center gap-1">
+              <span class="text-[#666] text-sm">{{ i }}.</span>
+              <span>{{ track.name }}</span>
+            </div>
+          </div>
+          <div class="flex gap-2 items-center">
+            <i class="fa-solid fa-play"></i>
+            <span>{{ track.played }}</span>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <a class="my-4 block font-bold cursor-pointer"
+      >{{ playlist.tracks.length }} tracks</a
+    >
+  </div>
+</app-track-info-and-wave>

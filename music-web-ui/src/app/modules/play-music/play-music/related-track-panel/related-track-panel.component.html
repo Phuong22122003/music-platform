@@ -1,0 +1,96 @@
+<div class="bg-white p-6 font-sans text-sm text-gray-800">
+  <!-- RELATED TRACKS -->
+  <div class="space-y-6">
+    <div>
+      <div
+        class="flex justify-between font-semibold text-xs uppercase border-b pb-1"
+      >
+        <span>Related Tracks</span>
+        <a href="#" class="text-blue-500">View all</a>
+      </div>
+
+      <!-- Track Items -->
+      <div class="space-y-4 mt-4">
+        <div *ngFor="let track of tracks">
+          <app-sound-card
+            [author]="track.displayName"
+            [songTitle]="track.title"
+            [playCount]="track.playCount"
+            [likeCount]="track.likeCount"
+            [commentCount]="track.commentCount"
+            [avatar]="track.coverImageName"
+            [track]="track"
+          >
+          </app-sound-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- Likes -->
+    <div>
+      <div
+        class="flex justify-between font-semibold text-xs uppercase border-b pb-1"
+      >
+        <span>{{ likedUsers.length }} Likes</span>
+        <a
+          [routerLink]="['/song', currentTrack.id, 'likes']"
+          class="text-blue-500"
+          >View all</a
+        >
+      </div>
+      <div class="flex space-x-2 mt-3">
+        <a
+          *ngFor="let user of likedUsers"
+          [routerLink]="['/profile', user.userId]"
+          class="relative group"
+        >
+          <img
+            [src]="
+              user.avatar
+                ? avatarBaseUrl + '/' + user.avatar
+                : '/assets/images/user-placeholder.jpg'
+            "
+            alt="User avatar"
+            class="w-8 h-8 rounded-full object-cover"
+          />
+          <span
+            class="hidden group-hover:block absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs py-1 px-2 rounded whitespace-nowrap"
+          >
+            {{ user.displayName }}
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Go Mobile -->
+    <div>
+      <h4 class="uppercase font-semibold text-xs mb-2">Go Mobile</h4>
+      <div class="flex space-x-3">
+        <img
+          src="assets\icons\appstore_badge.png"
+          alt="App Store"
+          class="h-10 cursor-pointer"
+          (click)="showComingSoon()"
+        />
+        <img
+          src="assets\icons\google_play_badge.png"
+          alt="Google Play"
+          class="h-10 cursor-pointer"
+          (click)="showComingSoon()"
+        />
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="border-t pt-4 text-xs text-gray-400 space-y-1">
+      <div>
+        Legal · Privacy · Cookie Policy · Cookie Manager · Imprint · Artist
+        Resources · Blog · Charts · Transparency Reports
+      </div>
+      <div>
+        <span class="text-gray-600">Language:</span>
+        <span class="text-blue-600">English (US)</span>
+      </div>
+    </div>
+  </div>
+</div>

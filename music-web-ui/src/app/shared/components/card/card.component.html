@@ -1,0 +1,70 @@
+<div
+  [ngClass]="{ 'cursor-pointer': idToEmitDelete }"
+  class="flex flex-col select-none"
+  (mouseover)="idToEmitDelete && showPlayButton()"
+  (mouseleave)="idToEmitDelete && hiddenPlayButton()"
+  (click)="goTo()"
+>
+  <div class="relative border border-gray-300 w-[180px] h-[180px]">
+    <ng-content></ng-content>
+    <ng-container *ngIf="isShow; then hover"></ng-container>
+  </div>
+
+  <ng-content select="[footer]"></ng-content>
+</div>
+
+<ng-template #hover>
+  <div class="hover" (click)="prevent($event)">
+    <div class="play-button" (click)="playTrackInnerCard($event)">
+      @if (isPlay) {
+      <div
+        class="text-[22px] w-7 h-7 flex items-center justify-center text-white"
+      >
+        <i class="fa-solid fa-pause"></i>
+      </div>
+      } @else {
+      <img
+        class="w-7 h-7"
+        src="./assets/icons/play.svg"
+        alt="play-circle-svgrepo-com.svg"
+      />
+      }
+    </div>
+    <div class="footer">
+      <span
+        (click)="toggleLikeInnerCard($event)"
+        [class.soundcloud-color]="isLiked"
+        [class.white-color]="!isLiked"
+        *ngIf="!isOwner"
+      >
+        <i class="fa-solid fa-heart"></i>
+      </span>
+      <span
+        *ngIf="!isOwner"
+        (click)="toggleFollowInnerCard($event)"
+        [class.soundcloud-color]="isFollowed"
+        [class.white-color]="!isFollowed"
+      >
+        <i
+          class="fa-solid"
+          [ngClass]="isFollowed ? 'fa-user-check' : 'fa-user-plus'"
+        ></i>
+      </span>
+      <div
+        (appClickOutside)="menuVisible = false"
+        (click)="menuVisible = !menuVisible"
+        class="cursor-pointer relative"
+      >
+        <i class="text-white fa-solid fa-ellipsis relative"></i>
+        <div *ngIf="menuVisible" class="absolute">
+          <app-track-actions [actions]="trackActions"></app-track-actions>
+        </div>
+        <!-- <span>Copy Link</span> -->
+      </div>
+    </div>
+  </div>
+</ng-template>
+<app-playlist-modal
+  #playlistModal
+  [trackIds]="trackIdsToAddPlayList"
+></app-playlist-modal>

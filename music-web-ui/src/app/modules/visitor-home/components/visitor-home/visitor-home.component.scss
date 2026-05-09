@@ -1,0 +1,11 @@
+.image-trending-track::before  {
+  content: url("../../../../../assets//icons/play.svg");
+  position: absolute;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right:auto;
+  height: 100px;
+  width: 100px;
+  background-color: antiquewhite;
+}

@@ -1,0 +1,25 @@
+<div class="flex justify-between my-4">
+  <span class="text-[18px] font-[100] text-[#999]"
+    >Hear the tracks you've liked:</span
+  >
+  <input
+    type="text"
+    class="filter"
+    placeholder="Filter"
+    style="line-height: 26px"
+    [(ngModel)]="searchQuery"
+  />
+</div>
+<div class="flex gap-4 overflow-x-auto">
+  @for (track of filteredTracks; track track.id) {
+  <app-track-card
+    (trackStateChange)="onTrackStateChange($event, track)"
+    (followStatusChange)="onFollowStatusChange($event, track)"
+    [isLiked]="true"
+    [track]="track"
+    class="flex-grow"
+  ></app-track-card>
+  } @for (_ of placeholders; track $index) {
+  <app-track-card class="flex-grow"></app-track-card>
+  }
+</div>

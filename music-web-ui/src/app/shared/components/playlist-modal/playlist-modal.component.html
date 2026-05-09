@@ -1,0 +1,117 @@
+<!-- Backdrop -->
+<div
+  class="fixed inset-0 bg-[hsla(0,0%,94.9%,.9)] z-999"
+  *ngIf="isVisible"
+  (click)="hide()"
+>
+  <div
+    [@slideModal]="animationState"
+    (@slideModal.done)="onAnimationDone($event)"
+    (click)="$event.stopPropagation()"
+    class="fixed top-10 left-1/2 transform -translate-x-1/2 z-50"
+  >
+    <div class="bg-zinc-900 text-white rounded-xl w-[500px] p-6 shadow-lg">
+      <!-- Tabs -->
+      <div class="flex border-b border-gray-600 mb-4">
+        <button
+          (click)="switchTab('add', $event)"
+          class="px-4 py-2 text-sm font-medium"
+          [ngClass]="{
+            'border-b-2 border-white text-white': activeTab === 'add',
+            'text-gray-400': activeTab !== 'add'
+          }"
+        >
+          Add to playlist
+        </button>
+        <button
+          (click)="switchTab('create', $event)"
+          class="px-4 py-2 text-sm font-medium"
+          [ngClass]="{
+            'border-b-2 border-white text-white': activeTab === 'create',
+            'text-gray-400': activeTab !== 'create'
+          }"
+        >
+          Create a playlist
+        </button>
+      </div>
+
+      <!-- Tab Content -->
+      <div *ngIf="activeTab === 'add'" class="space-y-4">
+        <input
+          type="text"
+          placeholder="Filter playlists"
+          class="w-full p-2 rounded bg-zinc-800 text-white focus:outline-none"
+        />
+        <div
+          class="flex flex-col justify-between bg-zinc-800 p-3 rounded gap-2"
+        >
+          @for (playlist of playlists; track $index) {
+          <div class="flex items-center gap-3">
+            <img
+              [src]="
+                playlist.imagePath
+                  ? coverUrl + '/' + playlist.imagePath
+                  : '/assets/images/music-placeholder.png'
+              "
+              alt="playlist"
+              class="w-10 h-10 rounded"
+            />
+            <div>
+              <p class="font-medium">{{ playlist.listname }}</p>
+              <p class="text-sm text-gray-400">
+                {{ playlist.tracks.length }}
+              </p>
+            </div>
+            <button
+              class="ml-auto bg-white text-black px-3 py-1 rounded hover:bg-gray-200"
+              (click)="addTrackToPlayList(playlist.listId, $index)"
+            >
+              Add to Playlist
+            </button>
+          </div>
+
+          }
+        </div>
+      </div>
+
+      <div *ngIf="activeTab === 'create'" class="space-y-4">
+        <label class="block text-sm">Playlist title</label>
+        <input
+          type="text"
+          placeholder="Enter name..."
+          class="w-full p-2 rounded bg-zinc-800 text-white focus:outline-none"
+          [(ngModel)]="title"
+        />
+        <div class="flex items-center gap-6">
+          <label class="flex items-center gap-2">
+            <input
+              type="radio"
+              name="privacy"
+              [(ngModel)]="privacy"
+              value="PUBLIC"
+            />
+            <span>Public</span>
+          </label>
+
+          <label class="flex items-center gap-2">
+            <input
+              type="radio"
+              name="privacy"
+              [(ngModel)]="privacy"
+              value="PRIVATE"
+            />
+            <span>Private</span>
+          </label>
+        </div>
+        <button
+          (click)="onCreateNewPlaylist()"
+          class="hover:opacity-90 cursor-pointer bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->

@@ -1,0 +1,198 @@
+<form class="flex flex-col justify-center items-center" [formGroup]="form">
+  <div class="w-full">
+    <div
+      class="flex gap-4"
+      [ngClass]="{
+        'flex-col': !hasImageHorizontal,
+        'flex-row': hasImageHorizontal
+      }"
+    >
+      @for (field of formFields; track $index) { @if (field.type=='image') {
+      <label
+        *ngIf="field.type === 'image'"
+        [ngStyle]="{
+          width: (field.options?.widthImage || 400) + 'px',
+          height: (field.options?.heighImage || 400) + 'px'
+        }"
+        class="cursor-pointer mx-auto label-files border-2 border-dashed transition-all duration-[1000] ease-linear hover:border-black border-[#00000026] flex flex-col items-center justify-center gap-4 rounded-[4px]"
+        [for]="field.name"
+      >
+        @if (editedImageUrl) {
+        <div class="relative">
+          <img
+            *ngIf="editedImageUrl"
+            [src]="editedImageUrl"
+            alt="Edited Image"
+            class="w-full h-full"
+          />
+          <div class="flex flex-col gap-2 absolute right-4 bottom-4">
+            <span
+              (click)="onEditImage($event)"
+              class="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-[#f5f5f5] hover:opacity-[0.8]"
+              ><i class="fa-solid fa-pen"></i
+            ></span>
+
+            <span
+              (click)="onDeleteImage($event)"
+              class="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-[#f5f5f5] hover:opacity-[0.8]"
+              ><i class="fa-solid fa-trash"></i
+            ></span>
+          </div>
+        </div>
+        } @else { @if (selectedImageFile) {
+        <img
+          class="w-full h-full object-cover"
+          [src]="selectedImageFile"
+          alt=""
+        />
+        } @else {
+        <div class="flex flex-col gap-2">
+          <i class="text-[120px] fa-solid fa-image"></i>
+          <span>Add new artwork</span>
+        </div>
+        } }
+      </label>
+      } }
+      <div class="grid grid-cols-2 gap-4 grow">
+        <div
+          *ngFor="let field of formFields; trackBy: trackByIndex"
+          [ngClass]="{ 'col-span-2': field.columnSpan == 2 }"
+        >
+          @if (field.type!=='image') {
+          <label
+            class="my-2 text-[#121212] font-[600] text-[12px]"
+            [for]="field.name"
+            >{{ field.label }}
+            <span *ngIf="field.validators" class="text-red-500">*</span>
+          </label>
+          @if (field.type === 'select') {
+          <ng-select
+            [items]="field.dataSelect"
+            bindLabel="name"
+            bindValue="id"
+            [placeholder]="field.placeholder || 'Select an option'"
+            [formControlName]="field.name"
+            [clearable]="true"
+          >
+          </ng-select>
+          } @else if (field.type === 'multi-select') {
+          <ng-select
+            [items]="field.dataSelect"
+            bindLabel="name"
+            bindValue="id"
+            [placeholder]="field.placeholder || 'Select an option'"
+            [formControlName]="field.name"
+            [multiple]="true"
+          >
+          </ng-select>
+          } @else if (field.type === 'radio') {
+          <div class="radio-group">
+            <div *ngFor="let data of field.dataSelect" class="custom-radio">
+              <input
+                type="radio"
+                [id]="field.name + '-' + data.id"
+                [formControlName]="field.name"
+                [value]="data.id"
+                [checked]="compareValues(form.get(field.name)?.value, data.id)"
+                [title]="data.name"
+              />
+              <span class="radio-box"></span>
+              <label [for]="field.name + '-' + data.id">
+                {{ data.name }}
+              </label>
+            </div>
+          </div>
+
+          } @else {
+          <input
+            title="..."
+            [id]="field.name"
+            [type]="field.type"
+            [placeholder]="field.placeholder"
+            [formControlName]="field.name"
+            [ngClass]="{
+              'border-[#e61948]':
+                form.get(field.name)?.invalid && form.get(field.name)?.touched
+            }"
+            *ngIf="field.options?.includeDefault; else normalInput"
+            (input)="onInputChange($event, field.name)"
+          />
+          <ng-template #normalInput>
+            <input
+              title="..."
+              [id]="field.name"
+              [type]="field.type"
+              [placeholder]="field.placeholder || ''"
+              [formControlName]="field.name"
+              [ngClass]="{
+                'border-[#e61948]':
+                  form.get(field.name)?.invalid && form.get(field.name)?.touched
+              }"
+            />
+          </ng-template>
+          }
+          <div
+            *ngIf="
+              form.get(field.name)?.invalid && form.get(field.name)?.touched
+            "
+          >
+            <div
+              *ngIf="form.get(field.name)?.errors?.['required']"
+              class="mt-2 text-[#e61948] text-[12px]"
+            >
+              {{`${field.label} is required.`}}
+            </div>
+            <div
+              *ngIf="form.get(field.name)?.errors?.['minlength']"
+              class="mt-2 text-[#e61948] text-[12px]"
+            >
+              {{`${field.label} needs ${form.get(field.name)?.errors?.['minlength']['requiredLength'] - form.get(field.name)?.errors?.['minlength']['actualLength']} more characters`}}
+            </div>
+            <div
+              *ngIf="form.get(field.name)?.errors?.['maxlength']"
+              class="mt-2 text-[#e61948] text-[12px]"
+            >
+              {{`${field.label} can't exceed ${form.get(field.name)?.errors?.['maxlength']['requiredLength']} characters`}}
+            </div>
+            <div
+              *ngIf="form.get(field.name)?.errors?.['pattern']"
+              class="mt-2 text-[#e61948] text-[12px]"
+            >
+              {{`${field.label} is not math pattern.`}}
+            </div>
+            <div
+              *ngIf="form.get(field.name)?.errors?.['email']"
+              class="mt-2 text-[#e61948] text-[12px]"
+            >
+              Enter valid email
+            </div>
+          </div>
+          } @else {
+          <input
+            (change)="onSelectedImageFile($event)"
+            type="file"
+            [name]="field.name"
+            [id]="field.name"
+            accept="image/*"
+            hidden
+          />
+          }
+        </div>
+      </div>
+    </div>
+    <button
+      [disabled]="disabled"
+      type="button"
+      (click)="onSubmit()"
+      class="ml-auto w-[150px] bg-black h-[50px] mt-12 flex items-center justify-center rounded-xl cursor-pointer relative overflow-hidden transition-all duration-500 ease-in-out shadow-md hover:scale-105 hover:shadow-lg before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-[#009b49] before:to-[rgb(105,184,141)] before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-xl hover:before:left-0 text-[#fff]"
+      [ngClass]="{
+        'opacity-50 cursor-not-allowed': disabled,
+        'opacity-100 cursor-pointer': !disabled
+      }"
+    >
+      @if (disabled) {
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      } Next
+    </button>
+  </div>
+</form>

@@ -1,0 +1,55 @@
+<div class="p-6">
+  <!-- Total likes count -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">
+      {{ users.length }} {{ users.length === 1 ? "Like" : "Likes" }}
+    </h2>
+  </div>
+
+  <!-- Search bar -->
+  <div class="mb-6">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Filter users"
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-500"
+    />
+  </div>
+
+  <!-- Users grid with infinite scroll -->
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"
+  >
+    <app-following-circle
+      *ngFor="let user of filteredUsers"
+      [profile]="user"
+    ></app-following-circle>
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="flex justify-center my-4">
+    <div
+      class="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"
+    ></div>
+  </div>
+
+  <!-- No more data message -->
+  <div
+    *ngIf="!hasMore && users.length > 0"
+    class="text-center text-gray-500 my-4"
+  >
+    No more users to load
+  </div>
+
+  <!-- No results message -->
+  <div
+    *ngIf="filteredUsers.length === 0"
+    class="text-center text-gray-500 my-4"
+  >
+    No users found
+  </div>
+</div>

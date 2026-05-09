@@ -1,0 +1,128 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z1 w-full">
+  <!-- Checkbox -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (change)="$event ? toggleAllRows() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+      ></mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)"
+      ></mat-checkbox>
+    </td>
+  </ng-container>
+
+  <!-- Thumbnail + Title + User + Tags -->
+  <ng-container matColumnDef="thumbnail">
+    <th mat-header-cell *matHeaderCellDef>TRACK</th>
+    <td mat-cell *matCellDef="let element">
+      <div class="flex items-center gap-2 group">
+        <div class="relative" (click)="playMusic(element)">
+          <img
+            [src]="element.coverImageName ? `${coverUrl}/${element.coverImageName}` : '/assets/images/music-placeholder.png'"
+            class="w-10 h-10 rounded"
+          />
+          <span
+            class="group-hover:flex hidden absolute left-1/2 top-1/2 -translate-1/2 cursor-pointer hover:opacity-90 w-[32px] h-[32px] bg-black rounded-full flex items-center justify-center"
+            ><i
+              class="text-white fa-solid"
+              [ngClass]="{
+                'fa-pause': element.id === playId && isPlay,
+                'fa-play':
+                  element.id !== playId || (element.id === playId && !isPlay)
+              }"
+            ></i
+          ></span>
+        </div>
+        <div>
+          <div class="font-bold hover:opacity-90 cursor-pointer">
+            {{ element.title }}
+            <!-- <ng-container *ngFor="let tag of element.tags">
+                <span
+                  class="ml-1 text-xs font-semibold uppercase text-white bg-gray-600 px-1.5 py-0.5 rounded"
+                  *ngIf="tag === 'HD'"
+                  >HD</span
+                >
+                <mat-icon
+                  class="ml-1"
+                  *ngIf="tag === 'LOCKED'"
+                  fontIcon="lock"
+                  style="font-size: 16px"
+                ></mat-icon>
+              </ng-container> -->
+          </div>
+          <div class="text-sm text-gray-400">{{ element.displayName }}</div>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <!-- Length -->
+  <ng-container matColumnDef="length">
+    <th mat-header-cell *matHeaderCellDef>LENGTH</th>
+    <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
+  </ng-container>
+
+  <!-- Date -->
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>DATE</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.createdAt | formatDate }}
+    </td>
+  </ng-container>
+
+  <!-- Engagements -->
+  <ng-container matColumnDef="engagements">
+    <th mat-header-cell *matHeaderCellDef>ENGAGEMENTS</th>
+    <td mat-cell *matCellDef="let e">
+      <div class="flex gap-4 items-center">
+        <span class="flex items-center gap-2"
+          ><mat-icon fontIcon="favorite_border"></mat-icon>
+          {{ e.countLike }}</span
+        >
+        <span class="flex items-center gap-2"
+          ><mat-icon fontIcon="chat_bubble_outline"></mat-icon>
+          {{ e.countComment }}</span
+        >
+      </div>
+    </td>
+  </ng-container>
+
+  <!-- Plays -->
+  <ng-container matColumnDef="plays">
+    <th mat-header-cell *matHeaderCellDef>PLAYS</th>
+    <td mat-cell *matCellDef="let element" class="font-bold">
+      {{ element.countPlay }}
+    </td>
+  </ng-container>
+
+  <!-- Actions -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onOpenEdit(element)">Edit</button>
+        <button mat-menu-item (click)="onClickDelete(element)">Delete</button>
+      </mat-menu>
+    </td>
+  </ng-container>
+
+  <tr
+    mat-header-row
+    *matHeaderRowDef="displayedColumns"
+    class="text-white"
+  ></tr>
+  <tr
+    mat-row
+    class="py-40"
+    *matRowDef="let row; columns: displayedColumns"
+  ></tr>
+</table>

@@ -1,0 +1,65 @@
+<div
+  [ngClass]="{
+    'opacity-0': !isShow
+  }"
+  class="modal fixed bottom-0 z-1 w-full bg-[#121212] p-4 flex items-center gap-4 text-white"
+>
+  <!-- Nút Play/Pause -->
+  <button
+    (click)="togglePlay()"
+    class="p-2 w-[40px] h-[40px] rounded-full bg-black cursor-pointer hover:bg-[#666666]"
+  >
+    <i
+      class="fa-solid"
+      [ngClass]="{ 'fa-play': !isPlay, 'fa-pause': isPlay }"
+    ></i>
+  </button>
+
+  <!-- Thanh progress -->
+  <div class="relative w-4/6 flex items-center">
+    <input
+      type="range"
+      #audioProcess
+      class="audio w-full h-[2px] bg-gray-600 rounded-lg appearance-none cursor-pointer"
+      [(ngModel)]="progress"
+      (input)="seekAudio($event)"
+      (focus)="isSliderFocused = true"
+      (blur)="isSliderFocused = false"
+    />
+    <div
+      #processBar
+      class="bg-[#ff5500] left-0 top-1/2 -translate-y-1/2 h-[2px] w-full absolute"
+    ></div>
+  </div>
+
+  <!--Thời gian phát -->
+  <span>{{ formatDuration(currentTime) }}</span>
+
+  <!-- Tổng thời gian -->
+  <span>{{ formatDuration(duration) }}</span>
+
+  <!-- Tiêu đề bài hát -->
+  <div class="ml-4 flex gap-2">
+    <img
+      *ngIf="track"
+      class="w-[40px] h-[40px] rounded-sm object-cover"
+      [src]="track.coverImageName ? `${coverUrl}/${track.coverImageName}` :
+    '/assets/images/music-placeholder.png'"
+      alt=""
+    />
+    <div>
+      <strong>{{ trackTitle }}</strong>
+      <p class="text-gray-400 text-sm">{{ artist }}</p>
+    </div>
+  </div>
+</div>
+
+<audio
+  id="audio"
+  #audioPlayer
+  (timeupdate)="updateProgress()"
+  (loadedmetadata)="setDuration()"
+>
+  <source id="source-audio" [src]="audioUrl" type="audio/mpeg" />
+  Your browser does not support the audio tag.
+</audio>

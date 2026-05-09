@@ -1,0 +1,25 @@
+<div class="inline-flex flex-col gap-2 items-center group">
+  <div class="w-[180px] h-[180px] rounded-full">
+    <a class="cursor-pointer" [routerLink]="['/profile', profile.userId]">
+      <img
+        class="w-full h-full object-cover rounded-full"
+        [src]="profile.avatar ? `${avatarUrl}/${profile.avatar}` : '/assets/images/music-placeholder.png'"
+        alt=""
+      />
+    </a>
+  </div>
+  <div class="hover:text-[#333] cursor-pointer text-center">
+    <a [routerLink]="['/profile', profile.userId]">{{ profile.displayName }}</a>
+  </div>
+  <div class="flex gap-2 items-center text-[#999] text-[11px]">
+    <i class="fa-solid fa-user-group"></i>{{ profile.followerCount }} Followers
+  </div>
+  <button
+    (click)="toggleFollow()"
+    type="button"
+    class="cursor-pointer group-hover:opacity-100 opacity-0 text-[11px] flex gap-2 items-center px-1 border text-[var(--primary-orange-color)] border-[var(--primary-orange-color)]"
+  >
+    <i class="fa-solid fa-person"></i
+    ><span>{{ isFollow ? "Following" : "Follow" }}</span>
+  </button>
+</div>

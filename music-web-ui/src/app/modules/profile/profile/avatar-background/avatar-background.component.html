@@ -1,0 +1,42 @@
+@if (userProfile) {
+<div
+  class="flex justify-between gap-4 px-8 p-4 rounded-xl"
+  [ngClass]="{
+    'bg-cover bg-center': userProfile.cover,
+    'bg-gradient-to-r from-purple-500 to-blue-500': !userProfile.cover
+  }"
+  [style.background-image]="userProfile.cover ? 'url(' + coverUrl + ')' : ''"
+>
+  <div class="w-[200px] h-[200px] rounded-full relative group cursor-pointer">
+    <img
+      class="w-full h-full object-cover rounded-full"
+      [src]="avatarUrl ? avatarUrl : '/assets/images/user-placeholder.jpg'"
+      alt=""
+      srcset=""
+    />
+
+    <label
+      *ngIf="loginUserId === userProfile.userId"
+      for="avatar"
+      class="opacity-0 group-hover:opacity-100 px-2 border border-black bg-white cursor-pointer absolute left-1/2 -translate-x-1/2 text-nowrap bottom-4"
+    >
+      <i class="fa-solid fa-camera"></i> Update image
+    </label>
+  </div>
+  <div class="grow flex justify-between items-start">
+    <span class="text-white bg-black p-2 text-[24px]"
+      >{{ userProfile.displayName }}
+    </span>
+    <label
+      *ngIf="loginUserId === userProfile.userId"
+      for="background"
+      class="px-2 border border-black bg-white cursor-pointer"
+    >
+      <i class="fa-solid fa-camera"></i> Upload header image
+    </label>
+  </div>
+</div>
+<input type="file" id="background" hidden (change)="onCoverSelected($event)" />
+<input type="file" id="avatar" hidden (change)="onAvatarSelected($event)" />
+
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+</head>
+<body>
+<h1>WebSocket Example</h1>
+<input type="text" id = "username" value="">
+<button onclick=connect()>Connnect</button>
+<br>
+<input type="text" id="message" placeholder="Enter your message">
+<input type="text" id="recipient" placeholder="Enter recipient username">
+<button onclick="sendMessage()">Send</button>
+<div id = "response"></div>
+
+<script>
+    var socket = null;
+    var stompClient = null;
+    function connect(){
+        socket= new SockJS('/notification/ws-notification');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe(`/user/queue/message`, function (message) {
+                
+                document.getElementById('response').innerText = 'Received: ' + message.body;
+                window.alert(message.body)
+            });
+        });
+    }
+
+
+    function sendMessage() {
+        var message = document.getElementById('message').value;
+        var recipient = document.getElementById('recipient').value;
+
+        // Gửi tin nhắn đến người dùng cụ thể
+        stompClient.send("/app/send/message", {}, JSON.stringify({ recipient: recipient, content: message }));
+    }
+</script>
+</body>
+</html>

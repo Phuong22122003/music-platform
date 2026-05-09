@@ -1,0 +1,136 @@
+<div
+  class="sticky w-full flex items-center justify-center bg-[#f2f2f2] bottom-0 left-0 py-[13px]"
+>
+  <div class="flex items-center gap-4 text-[16px]">
+    <button (click)="onPrevTrack()">
+      <i class="cursor-pointer fa-solid fa-backward-step"></i>
+    </button>
+    <i
+      (click)="togglePlay()"
+      class="cursor-pointer"
+      [ngClass]="isPlay ? 'fa-solid fa-pause' : 'fa-solid fa-play'"
+    ></i>
+    <button (click)="onNextTrack()">
+      <i class="cursor-pointer fa-solid fa-forward-step"></i>
+    </button>
+    <button (click)="toggleShuffle()">
+      <span
+        [ngClass]="{
+          'text-[var(--primary-orange-color)]': isShuffle
+        }"
+        ><i class="cursor-pointer fa-solid fa-shuffle"></i
+      ></span>
+    </button>
+    <button (click)="toggleRepeat()" class="cursor-pointer">
+      <span *ngIf="repeatMode === 'off'"
+        ><i class="fa-solid fa-repeat"></i
+      ></span>
+      <span class="relative" *ngIf="repeatMode === 'one'"
+        ><i class="text-[var(--primary-orange-color)] fa-solid fa-repeat"></i>
+        <span
+          class="absolute top-[10px] right-[1px] text-[6px] text-white w-[8px] inline-flex items-center justify-center h-[8px] bg-[var(--primary-orange-color)] rounded-full"
+          >1</span
+        ></span
+      >
+      <span *ngIf="repeatMode === 'all'"
+        ><i class="text-[var(--primary-orange-color)] fa-solid fa-repeat"></i
+      ></span>
+    </button>
+  </div>
+  <div class="w-[35%] flex items-center ml-[42px]">
+    <span class="w-[30px] text-[12px] text-[var(--primary-orange-color)]">{{
+      formatDuration(currentTime)
+    }}</span>
+    <div class="w-[80%] mx-[10px] h-[2px] flex items-center relative">
+      <input
+        type="range"
+        class="audio bg-[#ccc] w-full h-full rounded-lg appearance-none cursor-pointer"
+        [(ngModel)]="progress"
+        (input)="seekAudio($event)"
+      />
+      <div
+        #processBar
+        class="bg-[#ff5500] left-0 top-1/2 -translate-y-1/2 h-full w-0 absolute"
+      ></div>
+    </div>
+    <span class="text-[12px]">{{ formatDuration(duration) }}</span>
+    <div class="ml-[42px] relative group">
+      <i
+        (click)="toggleMute()"
+        class="cursor-pointer fa-solid"
+        [ngClass]="{
+          'fa-volume-low': currentVolume <= 50 && currentVolume > 0,
+          'fa-volume-high': currentVolume > 50,
+          'fa-volume-xmark': currentVolume <= 0
+        }"
+      ></i>
+      <div
+        class="z-50 volume-panel h-0 group-hover:h-[120px] group-hover:border border-gray-300 transition-height duration-300 ease-in-out overflow-hidden absolute bottom-full w-[30px] flex items-center justify-center left-0 bg-[#f2f2f2]"
+      >
+        <input
+          type="range"
+          class="volume rotate-[-90deg] bg-gray-300 w-[100px] h-[3px] rounded-lg appearance-none"
+          (input)="changeVolume($event)"
+          [(ngModel)]="currentVolume"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="h-full flex items-center ml-[18px] gap-2">
+    <img
+      *ngIf="tracks && tracks.length > 0"
+      class="h-[30px] w-[30px] object-cover"
+      [src]="
+        tracks[currentIndex].coverImageName
+          ? coverUrl + '/' + tracks[currentIndex].coverImageName
+          : '/assets/images/music-placeholder.png'
+      "
+      alt=""
+    />
+    <div class="flex w-[223px] flex-col">
+      <span class="text-[#999999] hover:text-black cursor-pointer">{{
+        username
+      }}</span>
+      <span
+        class="text-[#666666] w-full truncate hover:text-black cursor-pointer"
+        >{{ trackName }}</span
+      >
+    </div>
+    <div class="flex items-center gap-3">
+      <i
+        *ngIf="tracks[currentIndex]"
+        (click)="toggleLike()"
+        [ngClass]="{ 'text-red-500': tracks[currentIndex].isLiked }"
+        class="cursor-pointer fa-solid fa-heart"
+      ></i>
+      <i
+        *ngIf="tracks[currentIndex]"
+        (click)="toggleFollow()"
+        [ngClass]="{ 'text-orange-500': playingFollowUserId }"
+        class="cursor-pointer fa-solid fa-user-plus"
+      ></i>
+
+      <div class="relative group">
+        <i (click)="toggleNextUpList()" class="cursor-pointer fa-solid fa-list">
+        </i>
+        <app-next-up
+          [playingTrackIndex]="currentIndex"
+          [tracks]="tracks"
+          (closeEvent)="onCloseNextUpList()"
+          [isOpenNextUpList]="isOpenNextUpList"
+          [isFirstTime]="isFirstTime"
+          (dropDragEvent)="handleDropDrag($event)"
+        ></app-next-up>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <audio
+  #audioPlayer
+  (timeupdate)="updateProgress()"
+  (loadedmetadata)="setDuration()"
+  (ended)="onAudioEnded()"
+>
+  <source [src]="audioUrl" type="audio/mpeg" />
+  Your browser does not support the audio tag.
+</audio> -->

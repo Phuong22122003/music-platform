@@ -1,0 +1,42 @@
+<div *ngIf="track" class="flex gap-4">
+  <div
+    class="cursor-pointer hover:opacity-90 flex gap-2 items-center px-3 py-2 bg-[#f3f3f3] rounded-[4px]"
+    (click)="onToggleLike()"
+  >
+    <i
+      class="fa-solid fa-heart"
+      [ngClass]="{ 'text-[var(--primary-orange-color)]': isLiked }"
+    ></i>
+    <span>{{ likeCount }}</span>
+    <!-- <span>Like</span> -->
+  </div>
+  <div
+    class="cursor-pointer hover:opacity-90 px-3 py-2 bg-[#f3f3f3] rounded-[4px]"
+    (click)="onCopyLink()"
+  >
+    <i *ngIf="!isCopy; else noCopy" class="fa-regular fa-clone"></i>
+    <ng-template #noCopy>
+      <span>Copied</span>
+    </ng-template>
+    <!-- <span>Copy Link</span> -->
+  </div>
+  <div
+    *ngIf="isOwner"
+    class="cursor-pointer hover:opacity-90 flex gap-2 items-center px-3 py-2 bg-[#f3f3f3] rounded-[4px]"
+    (click)="openEdit()"
+  >
+    <i class="fa-solid fa-pen-to-square"></i>
+  </div>
+  <div
+    (appClickOutside)="menuVisible = false"
+    (click)="menuVisible = !menuVisible"
+    class="cursor-pointer hover:opacity-90 px-3 py-2 bg-[#f3f3f3] rounded-[4px] relative"
+  >
+    <i class="fa-solid fa-ellipsis"></i>
+    <div *ngIf="menuVisible" class="absolute">
+      <app-track-actions [actions]="trackActions"></app-track-actions>
+    </div>
+    <!-- <span>Copy Link</span> -->
+  </div>
+</div>
+<app-playlist-modal #playlistModal [trackIds]="[track.id]"></app-playlist-modal>

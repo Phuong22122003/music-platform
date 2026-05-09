@@ -1,0 +1,96 @@
+<mat-drawer-container class="min-h-screen example-container">
+  <mat-drawer class="shadow-sm nav" mode="side" opened>
+    <div class="flex justify-center mt-4">
+      <i class="text-[36px] fa-brands fa-soundcloud text-black"></i>
+    </div>
+    <div class="my-8 flex flex-col gap-8">
+      <a [routerLink]="['/discover']">
+        <div class="flex items-center relative flex-col icon-wrap">
+          <i class="text-black fa-solid fa-house icon"></i
+          ><span class="text font-medium">Home</span>
+        </div>
+      </a>
+      <div [routerLink]="['/library']">
+        <div class="flex items-center relative flex-col icon-wrap">
+          <i class="text-black fa-solid fa-book icon"></i
+          ><span class="text font-medium">Library</span>
+        </div>
+      </div>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content class="h-full p-4">
+    <div class="flex justify-end gap-4">
+      <a [routerLink]="['/search']">
+        <button mat-flat-button class="">
+          <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
+        </button>
+      </a>
+      <div
+        class="p-2 w-[40px] h-[40px] flex items-center justify-center rounded-full bg-black"
+      >
+        <i class="text-white fa-solid fa-bell"></i>
+      </div>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+      >
+        <img
+          *ngIf="profile"
+          class="w-[40px] h-[40px] object-cover object-cover rounded-full"
+          [src]="profile.avatar ? `${avatarUrl}/${profile.avatar}` : '/assets/images/music-placeholder.png'"
+          alt=""
+        />
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onNavigateProfile()">
+          <i class="fa-solid fa-user mr-2"></i>
+          <span>Profile</span>
+        </button>
+
+        <button mat-menu-item>
+          <i class="fa-solid fa-music mr-2"></i>
+          <span>Tracks</span>
+        </button>
+        <button mat-menu-item>
+          <i class="fa-solid fa-chart-simple mr-2"></i>
+          <span>Insight</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onLogout()">
+          <span>Sign Out</span>
+        </button>
+      </mat-menu>
+    </div>
+    <div>
+      <div class="text-[32px] font-semibold">My Tracks</div>
+      <mat-divider></mat-divider>
+    </div>
+    <div class="mt-8">
+      <app-track-table
+        (chosenTrackToEdit)="chosenTrackToEdit($event)"
+        (chosenTrackToDelete)="onDeleteTrack($event)"
+      ></app-track-table>
+    </div>
+  </mat-drawer-content>
+  <mat-drawer
+    position="end"
+    class="shadow-sm edit-track"
+    mode="over"
+    [opened]="isOpenEditTrack"
+    (closed)="onEditTrackClose()"
+  >
+    <div
+      *ngIf="trackToEdit && isOpenEditTrack && isUpdateFormDone"
+      class="p-12"
+    >
+      <div class="text-[24px] font-semibold mb-4">Edit Track</div>
+      <app-dynamic-form
+        (submit)="onUpdateTrack($event)"
+        (image)="onFileSelected($event)"
+        [formFields]="formField"
+      ></app-dynamic-form>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>
+<app-audio-player></app-audio-player>

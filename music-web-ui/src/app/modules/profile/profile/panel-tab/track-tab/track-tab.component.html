@@ -1,0 +1,5 @@
+@for (item of tracks; track $index) {
+<app-track-info-and-wave [track]="item"></app-track-info-and-wave>
+} @if (isLoading) {
+<app-loading></app-loading>
+}

@@ -1,0 +1,24 @@
+<app-card>
+  <div class="relative">
+    <img
+      class="w-full h-full object-cover"
+      src="./assets/images/background/bg-galaxy-1.jpg"
+      alt=""
+    />
+
+    <img
+      class="border-5 border-[rgb(68,71,76)] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 inset-0 w-[70%] h-[70%] opacity-80"
+      src="{{ track.coverImagePath }}"
+      alt=""
+    />
+    <span class="absolute bottom-[5px] left-[10px] z-[1] text-white">Mix</span>
+  </div>
+  <div footer class="pt-2 flex flex-col">
+    <a class="text-sm font-semibold mt-1 truncate" href="{{ track.id }}">{{
+      track.name
+    }}</a>
+    <a class="text-xs text-gray-500 font-semibold" href="{{ track.userId }}">{{
+      track.username
+    }}</a>
+  </div>
+</app-card>

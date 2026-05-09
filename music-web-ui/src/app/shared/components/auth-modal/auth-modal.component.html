@@ -1,0 +1,381 @@
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 flex justify-center bg-[hsla(0,0%,94.9%,.9)]"
+>
+  <div
+    class="relative p-[25px] mt-[76px] bg-white w-[450px] h-fit"
+    [ngClass]="{
+      'modal-open-animation': !isClosing,
+      'modal-close-animation': isClosing
+    }"
+  >
+    <span
+      (click)="onCloseModal()"
+      class="absolute top-4 right-4 text-[20px] cursor-pointer"
+      ><i class="fa-solid fa-xmark"></i
+    ></span>
+
+    @switch (currentScene) { @case (Scene.EnterUserName) {
+    <div class="flex flex-col gap-[20px] mt-10">
+      <a
+        [routerLink]="['']"
+        class="bg-[#3578e5] px-[15px] py-[10px] text-center text-white border-1 border-[#3578e5]"
+        ><i class="text-white fa-brands fa-facebook"></i> Continue with
+        Facebook</a
+      >
+      <a
+        (click)="loginWithGoogle()"
+        class="gap-2 cursor-pointer flex items-center justify-center bg-[transparent] px-[15px] py-[10px] text-center text-black border-1 border-[#ccc]"
+        ><img
+          class=""
+          src="https://secure.sndcdn.com/assets/google-a6c367.svg"
+          alt=""
+        />Continue with Google</a
+      >
+      <a
+        [routerLink]="['']"
+        class="gap-2 flex items-center justify-center bg-black px-[15px] py-[10px] text-center text-white border-1 border-black"
+        ><i class="text-white fa-brands fa-apple"></i>Continue with Apple</a
+      >
+    </div>
+    <div class="flex items-center justify-between my-[16px]">
+      <div class="w-[43%] h-[0.8px] bg-black"></div>
+      or
+      <div class="w-[43%] h-[0.8px] bg-black"></div>
+    </div>
+    <form action="">
+      <input
+        type="text"
+        placeholder="Your username"
+        class="w-full px-[16px] py-[7px] border-1 border-[#ccc] rounded outline-none mb-[16px] text-[20px]"
+        [(ngModel)]="username"
+        name="username"
+      />
+      @if (usernameMessage) {
+      <div class="text-[12px] text-[#D61348] mb-[8px] self-start">
+        {{ usernameMessage }}
+      </div>
+      }
+      <button
+        (click)="onCheckUsername()"
+        type="button"
+        class="w-full px-[15px] py-[10px] bg-[var(--primary-orange-color)] text-white text-[16px] mb-[16px] rounded"
+        [disabled]="isLoading"
+        [ngClass]="{
+          'opacity-50 cursor-not-allowed': isLoading,
+          'opacity-100 cursor-pointer': !isLoading
+        }"
+      >
+        @if (isLoading) {
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        } Continue
+      </button>
+      <span
+        class="text-end block text-[#044DD2] text-[12px] font-medium mb-[16px]"
+        (click)="onClickForgotPassword()"
+      >
+        Need help?
+      </span>
+      <p class="text-[#999999] text-[12px]">
+        When registering, you agree that we may use your provided data for the
+        registration and to send you notifications on our products and services.
+        You can unsubscribe from notifications at any time in your settings. For
+        additional info please refer to our Privacy Policy.
+      </p>
+    </form>
+    } @case (Scene.EnterPasswordNewAccount) {
+    <div class="h-full flex flex-col items-center justify-center">
+      <div class="mb-[32px] text-center text-[32px] font-semibold">
+        Create your SoundCloud account
+      </div>
+      <div class="mb-[16px] relative w-full">
+        <input
+          type="text"
+          placeholder="Your username"
+          class="username_back cursor-pointer w-full pl-[28px] pr-[16px] py-[7px] border-1 border-[#ccc] rounded outline-none text-[20px]"
+          [(ngModel)]="username"
+          name="username"
+          readonly
+          (click)="onBackToFirstScene()"
+        />
+        <i
+          (click)="onBackToFirstScene()"
+          class="fa-solid fa-arrow-left absolute left-2 top-[18px]"
+        ></i>
+      </div>
+      <label class="self-start font-semibold text-[1]" for="password"
+        >Choose a password</label
+      >
+      <input
+        id="password"
+        type="text"
+        placeholder="Your password"
+        class="w-full px-[16px] py-[7px] border-1 border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="password"
+        name="password"
+      />
+      @if (passwordMessage) {
+      <div class="text-[12px] text-[#D61348] mb-[8px] self-start">
+        {{ passwordMessage }}
+      </div>
+
+      }
+      <button
+        (click)="onNextSceneEnterPasswordNewAccount()"
+        type="button"
+        class="cursor-pointer w-full px-[15px] py-[10px] bg-[var(--primary-orange-color)] text-white text-[16px] mb-[16px] rounded"
+      >
+        Accept & Continue
+      </button>
+    </div>
+    } @case (Scene.EnterPasswordExistedAccount) {
+    <div class="h-full flex flex-col items-center justify-center">
+      <div class="mb-[32px] text-center text-[32px] font-semibold">
+        Welcome Back
+      </div>
+      <div class="mb-[16px] relative w-full">
+        <input
+          type="text"
+          placeholder="Your username"
+          class="username_back cursor-pointer w-full pl-[28px] pr-[16px] py-[7px] border-1 border-[#ccc] rounded outline-none text-[20px]"
+          [(ngModel)]="username"
+          name="username"
+          readonly
+          (click)="onBackToFirstScene()"
+        />
+        <i
+          (click)="onBackToFirstScene()"
+          class="fa-solid fa-arrow-left absolute left-2 top-[18px]"
+        ></i>
+      </div>
+      <input
+        type="password"
+        placeholder="Your password"
+        class="w-full px-[16px] py-[7px] border-1 border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="password"
+        name="password"
+      />
+      @if (passwordMessage) {
+      <div class="text-[12px] text-[#D61348] mb-[8px] self-start">
+        {{ passwordMessage }}
+      </div>
+      }
+      <button
+        (click)="onSignIn()"
+        type="button"
+        [disabled]="isLoading"
+        class="w-full px-[15px] py-[10px] bg-[var(--primary-orange-color)] text-white text-[16px] mb-[16px] rounded"
+        [ngClass]="{
+          'opacity-50 cursor-not-allowed': isLoading,
+          'opacity-100 cursor-pointer': !isLoading
+        }"
+      >
+        @if (isLoading) {
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        } Sign In
+      </button>
+      <span
+        (click)="onClickForgotPassword()"
+        class="hover:text-[#333] cursor-pointer text-end block text-[#044DD2] text-[12px] font-medium"
+      >
+        Don't know your password?
+      </span>
+    </div>
+    } @case (Scene.EnterNameBirthdayGender) {
+    <div class="flex flex-col items-center justify-center">
+      <div class="mb-[32px] text-center text-[32px] font-semibold">
+        Create your SoundCloud account
+      </div>
+
+      <!-- First Name -->
+      <label class="self-start font-semibold text-[14px]" for="firstName"
+        >Enter your first name</label
+      >
+      <input
+        id="firstName"
+        type="text"
+        placeholder="Your first name"
+        class="w-full px-[16px] py-[7px] border border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="firstName"
+        name="firstName"
+      />
+      @if (firstNameMessage) {
+      <div class="text-[12px] text-[#D61348] mb-[8px] self-start">
+        {{ firstNameMessage }}
+      </div>
+      }
+
+      <!-- Last Name -->
+      <label class="self-start font-semibold text-[14px]" for="lastName"
+        >Enter your last name</label
+      >
+      <input
+        id="lastName"
+        type="text"
+        placeholder="Your last name"
+        class="w-full px-[16px] py-[7px] border border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="lastName"
+        name="lastName"
+      />
+      @if (lastNameMessage) {
+      <div class="text-[12px] text-[#D61348] mb-[8px] self-start">
+        {{ lastNameMessage }}
+      </div>
+      }
+
+      <!-- Date of Birth -->
+      <label class="self-start font-semibold text-[14px]" for="dob"
+        >Enter your birthday</label
+      >
+      <input
+        id="dob"
+        type="date"
+        class="w-full px-[16px] py-[7px] border border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="dob"
+        name="dob"
+      />
+      @if (dobMessage) {
+      <div class="text-[12px] text-[#D61348] mb-[8px] self-start">
+        {{ dobMessage }}
+      </div>
+      }
+
+      <!-- Email -->
+      <label class="self-start font-semibold text-[14px]" for="email"
+        >Enter your email</label
+      >
+      <input
+        id="email"
+        type="email"
+        placeholder="Your email"
+        class="w-full px-[16px] py-[7px] border border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+      @if (emailMessage) {
+      <div class="text-[12px] text-[#D61348] mb-[8px] self-start">
+        {{ emailMessage }}
+      </div>
+      }
+      <!-- Display name -->
+      <label class="self-start font-semibold text-[14px]" for="displayName"
+        >Enter your display name</label
+      >
+      <input
+        id="displayName"
+        type="text"
+        placeholder="Your display name"
+        class="w-full px-[16px] py-[7px] border border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="displayName"
+        name="email"
+        required
+      />
+      @if (displayMessage) {
+      <div class="text-[12px] text-[#D61348] mb-[8px] self-start">
+        {{ displayMessage }}
+      </div>
+      }
+
+      <!-- Gender -->
+      <label class="self-start font-semibold text-[14px]" for="gender"
+        >Choose a gender</label
+      >
+      <select
+        class="w-full px-[16px] py-[7px] border border-[#ccc] rounded outline-none mb-[8px] text-[14px]"
+        name="gender"
+        id="gender"
+        [(ngModel)]="gender"
+      >
+        <option value="" disabled selected>Select your gender</option>
+        <option value="0">Nam</option>
+        <option value="1">Nữ</option>
+      </select>
+      @if (genderMessage) {
+      <div class="text-[12px] text-[#D61348] mb-[8px] self-start">
+        {{ genderMessage }}
+      </div>
+      }
+
+      <!-- Submit Button -->
+      <button
+        (click)="onSignUp()"
+        type="button"
+        [disabled]="isLoading"
+        class="w-full px-[15px] py-[10px] bg-[var(--primary-orange-color)] text-white text-[16px] mb-[16px] rounded"
+        [ngClass]="{
+          'opacity-50 cursor-not-allowed': isLoading,
+          'opacity-100 cursor-pointer': !isLoading
+        }"
+      >
+        @if (isLoading) {
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        } Accept & Continue
+      </button>
+    </div>
+    } @case (Scene.EnterEmailForForgotPassword) {
+    <div class="flex flex-col items-center justify-center">
+      <div class="mb-[32px] text-center text-[32px] font-semibold">
+        Forgot Password
+      </div>
+      <input
+        type="email"
+        placeholder="Your email"
+        class="w-full px-[16px] py-[7px] border border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="email"
+        name="email"
+      />
+      <button
+        (click)="onClickSendOTP()"
+        type="button"
+        class="w-full px-[15px] py-[10px] bg-[var(--primary-orange-color)] text-white text-[16px] mb-[16px] rounded"
+        [disabled]="isLoading"
+        [ngClass]="{
+          'opacity-50 cursor-not-allowed': isLoading,
+          'opacity-100 cursor-pointer': !isLoading
+        }"
+      >
+        @if (isLoading) {
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        } Send OTP
+      </button>
+    </div>
+    } @case (Scene.EnterOTPAndNewPassword) {
+    <div class="flex flex-col items-center justify-center">
+      <div class="mb-[32px] text-center text-[32px] font-semibold">
+        Enter OTP and New Password
+      </div>
+      <input
+        type="text"
+        placeholder="Your OTP"
+        class="w-full px-[16px] py-[7px] border border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="otp"
+        name="otp"
+      />
+      <input
+        type="password"
+        placeholder="Your new password"
+        class="w-full px-[16px] py-[7px] border border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="newPassword"
+        name="newPassword"
+      />
+      <input
+        type="password"
+        placeholder="Confirm your new password"
+        class="w-full px-[16px] py-[7px] border border-[#ccc] rounded outline-none mb-[8px] text-[20px]"
+        [(ngModel)]="confirmNewPassword"
+        name="confirmNewPassword"
+      />
+      <button
+        (click)="onClickConfirmOTP()"
+        type="button"
+        class="w-full px-[15px] py-[10px] bg-[var(--primary-orange-color)] text-white text-[16px] mb-[16px] rounded"
+      >
+        Confirm OTP
+      </button>
+    </div>
+    } @default {
+    <p>Unknown scene</p>
+    } }
+  </div>
+</div>

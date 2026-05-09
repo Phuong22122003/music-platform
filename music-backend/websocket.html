@@ -1,0 +1,26 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+</head>
+<body>
+    
+</body>
+<script>
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJRdWFuZ1RyYW4iLCJzdWIiOiI4ODY1ZTU1ZC1hMmVkLTQ5NjgtYjQwZC1lMWE5OTdlZTg5Y2YiLCJleHAiOjE3NDg1MTc5OTAsImlhdCI6MTc0ODUxNDM5MCwianRpIjoiOGI5NDFiMDgtM2Y0Yy00OTEzLThkNmEtYmFhNjA1Y2MyZjhmIiwic2NvcGUiOiIifQ.cDoQbvep8JVHtqFL68gJvozVJOcCZHAq6D10KXOu2wS96ym2A6KHvvVzCq6QQ5Xpk7Tpa6HQ6zit6faVYnO5dA'
+    const socket = new SockJS(`http://localhost:8087/notification-service/ws-notification?token=${token}`);
+    stompClient = Stomp.over(socket);
+    stompClient.connect({
+    }, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe(`/user/queue/message`, function (message) {
+            
+            document.getElementById('response').innerText = 'Received: ' + message.body;
+            window.alert(message.body)
+        });
+    });
+</script>
+</html>

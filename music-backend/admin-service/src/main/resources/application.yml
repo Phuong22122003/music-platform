@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: admin-service
+server:
+  port: 8088
+  servlet:
+    context-path: /admin-service
+
+app:
+    services:
+      comment: ${COMMENT_SERVICE_URL:http://localhost:8086/comment-service}
+      userlib: ${USERLIB_SERVICE_URL:http://localhost:8085/user-library}

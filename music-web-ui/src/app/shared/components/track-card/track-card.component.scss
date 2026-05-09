@@ -1,0 +1,45 @@
+.track-name{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: normal;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+    font-weight: 100;
+}
+.username{
+    color: rgb(84, 84, 84);
+}
+
+.play-button{
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, 0);
+    width: 70px;
+    height: 70px;
+}
+.track-footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 20px;
+    display: flex;
+    padding-right: 20px;
+    padding-bottom: 25px;
+    padding-top: 5px;
+    justify-content: flex-end;
+    gap: 10px;
+    background: linear-gradient(to top, rgba(76, 76, 76, 0.7), rgba(103, 103, 103, 0.2));
+
+}
+
+.liked{
+    fill: var(--soundcloud-color);
+}
+.unliked{
+    fill: white;
+}
+.followed{
+    fill: var(--soundcloud-color);
+}

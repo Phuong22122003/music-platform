@@ -1,0 +1,23 @@
+
+.audio::-webkit-slider-thumb {
+  background-color: transparent;
+  height:8px;
+  width:8px;
+  border-radius: 50%;
+  -webkit-appearance: none !important;
+}
+
+.audio:hover::-webkit-slider-thumb {
+  background-color: #ff5500;
+  cursor: pointer;
+}
+
+.volume::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  height:8px;
+  width:8px;
+  border-radius: 50%;
+  background-color: #ff5500;
+  cursor: pointer;
+}
+

@@ -1,0 +1,31 @@
+<div class="tag-container">
+  <h2 class="text-xl font-bold mb-4">Tag Management</h2>
+
+  <!-- Form to add new tag -->
+  <form (ngSubmit)="addTag()">
+    <mat-form-field appearance="outline">
+      <input
+        matInput
+        placeholder="New Tag"
+        [(ngModel)]="newTag"
+        name="newTag"
+      />
+    </mat-form-field>
+    <button class="ml-4" mat-raised-button color="primary" type="submit">
+      Add
+    </button>
+  </form>
+
+  <!-- List of tags -->
+  <mat-list>
+    <div
+      *ngFor="let tag of tags"
+      class="flex justify-between items-center p-2 border-b border-gray-200"
+    >
+      <span>{{ tag.name }}</span>
+      <button mat-icon-button color="warn" (click)="deleteTag(tag.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-list>
+</div>

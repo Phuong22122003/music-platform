@@ -1,0 +1,164 @@
+<div
+  class="flex items-start justify-between w-full pb-2 border-b border-gray-300"
+>
+  <!-- Left: Avatar + Comment -->
+  <div class="flex gap-3">
+    <!-- Avatar -->
+    <a
+      [routerLink]="['/profile', commentWithProfile.userId]"
+      class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-purple-300"
+    >
+      <img
+        [src]="
+          commentWithProfile?.userProfile?.avatar
+            ? getAvatar(commentWithProfile?.userProfile?.avatar)
+            : 'assets/images/user-placeholder.jpg'
+        "
+        class="w-full h-full object-cover rounded-full"
+        alt=""
+      />
+    </a>
+
+    <!-- Comment body -->
+    <div class="flex flex-col">
+      <!-- Name + time -->
+      <div class="text-sm text-black flex items-center gap-1 flex-wrap">
+        <a
+          [routerLink]="['/profile', commentWithProfile.userId]"
+          class="font-semibold"
+        >
+          {{ commentWithProfile.userProfile?.displayName || "Unknown User" }}</a
+        >
+        <span>·</span>
+        <span class="text-gray-500">{{
+          commentWithProfile.commentAt | timeAgo
+        }}</span>
+      </div>
+
+      <!-- Content -->
+      <div class="mt-1 text-sm text-black">
+        {{ commentWithProfile.content }}
+      </div>
+
+      <!-- Reply -->
+      <button
+        class="mt-2 text-sm mr-auto text-gray-500 hover:underline cursor-pointer"
+        (click)="toggleReply(commentWithProfile)"
+      >
+        Reply
+      </button>
+    </div>
+  </div>
+
+  <div class="flex flex-col items-center text-gray-700">
+    <button class="cursor-pointer" (click)="toggleLike(commentWithProfile)">
+      <i
+        class="fa-heart"
+        [ngClass]="{
+          'fa-solid text-red-500': commentWithProfile.isLiked,
+          'fa-regular': !commentWithProfile.isLiked
+        }"
+      ></i>
+    </button>
+    <span class="text-xs">{{ commentWithProfile.likeCount }}</span>
+  </div>
+</div>
+
+<div class="w-full">
+  @for (item of commentWithProfile.replies; track $index) {
+  <div class="mt-4 ml-[56px] flex items-start justify-between pb-2">
+    <!-- Left: Avatar + Comment -->
+    <div class="flex gap-3">
+      <!-- Avatar -->
+      <a
+        [routerLink]="['/profile', item.userProfile?.userId]"
+        class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-purple-300"
+      >
+        <img
+          [src]="
+            item.userProfile?.avatar
+              ? getAvatar(item.userProfile?.avatar)
+              : 'assets/images/default-avatar.png'
+          "
+          class="w-full h-full object-cover rounded-full"
+          alt=""
+        />
+      </a>
+
+      <!-- Comment body -->
+      <div class="flex flex-col">
+        <!-- Name + time -->
+        <div class="text-sm text-black flex items-center gap-1 flex-wrap">
+          <a
+            [routerLink]="['/profile', item.userProfile?.userId]"
+            class="font-semibold"
+          >
+            {{ item.userProfile?.displayName }}</a
+          >
+          <span>·</span>
+          <span class="text-gray-500">{{ item.commentAt | timeAgo }}</span>
+        </div>
+
+        <!-- Content -->
+        <div class="mt-1 textsm text-black">
+          <a
+            class="text-blue-700"
+            [routerLink]="['/profile', item.repliedUserId]"
+            >{{ item.replyUserProfile?.displayName }}</a
+          >
+          {{ item.content }}
+        </div>
+
+        <!-- Reply -->
+        <button
+          class="mt-2 text-sm mr-auto text-gray-500 hover:underline cursor-pointer"
+          (click)="toggleReply(item)"
+        >
+          Reply
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center text-gray-700">
+      <button class="cursor-pointer" (click)="toggleLike(item)">
+        <i
+          class="fa-heart"
+          [ngClass]="{
+            'fa-solid text-red-500': item.isLiked,
+            'fa-regular': !item.isLiked
+          }"
+        ></i>
+      </button>
+      <span class="text-xs">{{ item.likeCount }}</span>
+    </div>
+  </div>
+
+  }
+</div>
+<div *ngIf="replyInputVisible" class="ml-[56px] flex gap-3 items-start">
+  <a
+    [routerLink]="['/profile', loggedUserId]"
+    class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-purple-300"
+  >
+    <img
+      [src]="currentUserAvatar"
+      class="w-full h-full object-cover rounded-full"
+      alt=""
+    />
+  </a>
+  <div class="p-2 bg-[#f3f3f3] rounded-md flex w-full items-center">
+    <a
+      [routerLink]="['/profile', repComment?.userId]"
+      class="no-wrap text-blue-700 text-xs flex items-center justify-center rounded-md mr-2"
+    >
+      {{ repComment?.userProfile?.displayName }}
+    </a>
+    <input
+      class="reply-input w-full p-2 bg-[#f3f3f3] outline-none rounded-md"
+      placeholder="Write a reply..."
+      type="text"
+      [(ngModel)]="replyInput"
+      (keydown.enter)="submitReply(); replyInput = ''"
+    />
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<app-track-play
+  *ngIf="currentTrack"
+  [profile]="profile"
+  [track]="currentTrack"
+></app-track-play>
+
+<div class="px-4 grid grid-cols-9 gap-4 mt-4">
+  <!-- LEFT SIDE -->
+  <div id="first" class="col-span-7">
+    <div class="grid grid-cols-1 gap-4 px-4">
+      <div class="col-span-1">
+        <div class="mb-2">
+          <app-send-comment
+            *ngIf="track"
+            [trackId]="trackId"
+          ></app-send-comment>
+          <div
+            class="flex justify-end gap-2 mt-4 text-[#999999] text-[12px] pb-2 border-b border-gray-300"
+          >
+            <div *ngIf="track">
+              <i
+                class="hover:opacity-90 cursor-pointer text-[20px] fa-solid fa-play"
+              ></i>
+              {{ track.countPlay }}
+            </div>
+            <div>
+              <i
+                class="hover:opacity-90 cursor-pointer text-[20px] fa-solid fa-heart"
+              ></i>
+              {{ likeCount }}
+            </div>
+          </div>
+        </div>
+        <app-list-action
+          *ngIf="trackList"
+          [tracklist]="trackList"
+        ></app-list-action>
+        <app-track-action *ngIf="track" [track]="track"></app-track-action>
+      </div>
+
+      <div class="flex col-span-1 gap-4 px-4">
+        <div class="">
+          <app-profile [profile]="profile"></app-profile>
+        </div>
+        <div class="grow">
+          <app-track-desc
+            *ngIf="track"
+            [desc]="track.description"
+          ></app-track-desc>
+          <app-comment *ngIf="track" [trackId]="trackId"></app-comment>
+          <div *ngIf="trackList" class="mt-4 flex flex-col gap-2">
+            @for (track of trackList.tracks; track $index) {
+            <div
+              (click)="onChangeTrack($index)"
+              [ngClass]="{ 'bg-gray-200': $index === currentIndex }"
+              class="cursor-pointer p-2 flex items-center group justify-between hover:bg-gray-200"
+            >
+              <div class="flex gap-2 items-center">
+                <img
+                  class="w-[32px] h-[32px] object-cover"
+                  [src]="
+                    track.coverImageName
+                      ? coverUrl + '/' + track.coverImageName
+                      : '/assets/images/music-placeholder.png'
+                  "
+                  alt=""
+                  srcset=""
+                />
+                <span class="text-gray-500">{{ $index + 1 }}</span>
+                <span class="text-gray-500">·</span>
+                <a
+                  class="hover:opacity-80 w-[150px] block truncate"
+                  [routerLink]="['/profile', track.userId]"
+                  ><span class="text-gray-500">{{
+                    displayNames[$index]
+                  }}</span></a
+                >
+                <a class="hover:opacity-80" [routerLink]="['/song', track.id]">
+                  <span class="font-semibold">{{ track.title }}</span></a
+                >
+              </div>
+              <div class="flex items-center gap-2 relative">
+                <app-track-action
+                  class="z-999 absolute hidden group-hover:flex items-center right-0"
+                  [track]="track"
+                ></app-track-action>
+                <span class="block group-hover:hidden text-gray-500">
+                  {{ track.countPlay }}
+                </span>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="col-span-2" *ngIf="currentTrack">
+    <app-related-track-panel [track]="currentTrack"></app-related-track-panel>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+// ::ng-deep ng-select {
+//   border: 1px solid var(--primary-orange-color) !important;
+//   color: white!important;
+// }
+
+// ::ng-deep ng-select .ng-select-container {
+//   outline: none ;
+//   border-radius: 0 !important;
+//   transition: border-bottom 0.3s ease-in-out;
+// }
+
+// ::ng-deep.ng-select-container:hover,
+// ::ng-deep.ng-select-container:focus-within {
+//   background-color: var(--primary-orange-color); /* Đổi màu viền dưới thành đen */
+// }

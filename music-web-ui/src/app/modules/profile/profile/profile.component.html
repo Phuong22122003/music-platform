@@ -1,0 +1,22 @@
+@if (userProfile) {
+<app-avatar-background [userProfile]="userProfile"></app-avatar-background>
+<div class="mt-4">
+  <app-panel-tab
+    [userId]="userProfile.userId"
+    (openEditProfile)="openEditProfile()"
+  ></app-panel-tab>
+</div>
+<div class="grid grid-cols-7 mt-4">
+  <div class="col-span-5"><router-outlet></router-outlet></div>
+  <div class="col-span-2 sticky top-4 h-fit">
+    <app-stat-bar [userId]="userProfile.userId"></app-stat-bar>
+  </div>
+</div>
+<app-profile-editing
+  (updateProfile)="onUpdateProfile($event)"
+  [userProfile]="userProfile"
+  [show]="isEditProfileOpen"
+  (close)="closeEditProfile()"
+>
+</app-profile-editing>
+}

@@ -1,0 +1,48 @@
+<div class="flex flex-col">
+  <div class="self-center mb-2">
+    <div class="soundcloud w-25 h-25">
+      <i class="fa-solid fa-headphones headphone"></i>
+      <i class="fa-solid fa-eye left-eye"></i>
+      <i class="fa-solid fa-eye right-eye"></i>
+      <img
+        src="./assets/svg/soundcloud.svg"
+        class="bg-[var(--soundcloud-color)] rounded-full"
+        alt=""
+      />
+    </div>
+  </div>
+  <div>
+    <div class="flex justify-between">
+      <h3 class="font-medium">Artist you should follow</h3>
+      <span class="sidebarHeader__more__webi_style">Refresh list</span>
+    </div>
+    @for (profile of profiles; track $index) {
+    <app-user-card
+      [avatar]="profile.avatar ? `${avatarUrl}/${profile.avatar}` : '/assets/images/user-placeholder.jpg'"
+      [followers]="profile.followerCount || 0"
+      [name]="profile.displayName"
+      [userId]="profile.userId"
+    ></app-user-card>
+    }
+  </div>
+  <div>
+    <div class="flex justify-between">
+      <h3 class="font-medium">Listening History</h3>
+      <span class="sidebarHeader__more__webi_style"
+        ><a [routerLink]="['/library', 'history']">View all</a></span
+      >
+    </div>
+    <div *ngFor="let sound of soundCards">
+      <app-sound-card
+        [author]="sound.displayName"
+        [songTitle]="sound.title"
+        [playCount]="sound.countPlay"
+        [likeCount]="sound.likeCount"
+        [commentCount]="sound.commentCount"
+        [avatar]="sound.coverImageName"
+        [track]="sound"
+      >
+      </app-sound-card>
+    </div>
+  </div>
+</div>

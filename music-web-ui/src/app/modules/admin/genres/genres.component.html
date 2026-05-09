@@ -1,0 +1,28 @@
+<div class="genre-container">
+  <h2 class="text-xl font-bold mb-4">Genre Management</h2>
+  <form (ngSubmit)="addGenre()">
+    <mat-form-field appearance="outline">
+      <input
+        matInput
+        placeholder="New Genre"
+        [(ngModel)]="newGenre"
+        name="newGenre"
+      />
+    </mat-form-field>
+    <button class="ml-4" mat-raised-button color="primary" type="submit">
+      Add
+    </button>
+  </form>
+
+  <mat-list>
+    <div
+      *ngFor="let genre of genres"
+      class="flex justify-between items-center p-2 border-b border-gray-200"
+    >
+      <span>{{ genre.name }}</span>
+      <button mat-icon-button color="warn" (click)="deleteGenre(genre.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-list>
+</div>

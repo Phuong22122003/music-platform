@@ -1,0 +1,85 @@
+<div
+  class="flex justify-between cursor-pointer mb-2 relative"
+  style="gap: 10px"
+  (mouseover)="showPlayButton()"
+  (mouseleave)="hiddenPlayButton()"
+  *ngIf="track"
+>
+  <ng-container *ngIf="isShow; then hover"></ng-container>
+
+  <div class="p-1 relative">
+    <img
+      [src]="
+        avatar
+          ? coverUrl + '/' + avatar
+          : '/assets/images/music-placeholder.png'
+      "
+      alt="Avatar"
+      class="w-[50px] h-[50px]"
+    />
+  </div>
+  <a class="flex-1" [href]="'/song/' + track.id + '?play=true'">
+    <!-- Tên tác giả -->
+    <p class="text-gray-400">{{ author }}</p>
+    <!-- Tên bài hát -->
+    <p class="text-gray-900">{{ songTitle }}</p>
+
+    <div class="flex text-gray-500 text-sm mt-1 space-x-3">
+      <div
+        class="flex items-center cursor-pointer hover:text-gray-700 transition"
+      >
+        <img src="assets/play.svg" alt="Play Icon" class="w-[12px] h-[12px]" />
+        <small class="ml-1">{{ playCount }}</small>
+      </div>
+      <div
+        class="flex items-center cursor-pointer hover:text-gray-700 transition"
+      >
+        <img
+          src="assets/heart.svg"
+          alt="Heart Icon"
+          class="w-[12px] h-[12px]"
+        />
+        <small class="ml-1">{{ likeCount }}</small>
+      </div>
+
+      <div
+        class="flex items-center cursor-pointer hover:text-gray-700 transition"
+      >
+        <img
+          src="assets/comment.svg"
+          alt="Comment Icon"
+          class="w-[12px] h-[12px]"
+        />
+        <small class="ml-1">{{ commentCount }}</small>
+      </div>
+    </div>
+  </a>
+</div>
+
+<ng-template #hover>
+  <div class="hover">
+    <div class="flex justify-between">
+      @if (!isPlaying) {
+      <div class="play-button" (click)="playTrack()">
+        <img
+          class="w-4 h-4"
+          src="./assets/icons/play.svg"
+          alt="play-circle-svgrepo-com.svg"
+        />
+      </div>
+      } @else {
+      <div class="play-button text-white" (click)="playTrack()">
+        <div class="w-4 h-4 flex items-center justify-center">
+          <i class="fa-solid fa-pause"></i>
+        </div>
+      </div>
+      }
+      <div (click)="toggleLike()">
+        <i
+          [ngClass]="{ 'text-red-500': isLiked }"
+          class="fa-solid fa-heart"
+        ></i>
+      </div>
+    </div>
+  </div>
+</ng-template>

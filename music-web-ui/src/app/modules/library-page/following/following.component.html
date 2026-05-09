@@ -1,0 +1,22 @@
+<div class="flex justify-between my-4">
+  <span class="text-[18px] font-[100] text-[#999]"
+    >Hear what the people you follow have posted:</span
+  >
+  <input
+    type="text"
+    class="filter"
+    placeholder="Filter"
+    style="line-height: 26px"
+    [(ngModel)]="searchQuery"
+  />
+</div>
+<div class="flex gap-4 overflow-x-auto">
+  @for (profile of profileFilter; track profile.userId) {
+  <app-following-circle
+    class="flex-grow"
+    [profile]="profile"
+  ></app-following-circle>
+  } @for (_ of placeholders; track $index) {
+  <app-track-card class="flex-grow"></app-track-card>
+  }
+</div>

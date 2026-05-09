@@ -1,0 +1,13 @@
+<app-card-list>
+  <div class="flex gap-4">
+    @for (track of playlists; track track.id) {
+    <app-track-card
+      [track]="track"
+      (trackStateChange)="onTrackStateChange($event)"
+      class="flex-grow"
+    ></app-track-card>
+    } @for (_ of placeholders; track $index) {
+    <app-track-card class="flex-grow"></app-track-card>
+    }
+  </div>
+</app-card-list>

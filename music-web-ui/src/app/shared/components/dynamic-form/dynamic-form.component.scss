@@ -1,0 +1,13 @@
+input:not([type="file"]):not([type="radio"]) {
+  width: 100%;
+  outline: none;
+  border-bottom: 1px solid #d9d9d9;
+  transition: all 0.5s ease;
+  padding: 4px 0;
+}
+
+
+input:not([type="file"]):hover {
+  border-color: black;
+}
+

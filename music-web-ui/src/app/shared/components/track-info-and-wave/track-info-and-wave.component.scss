@@ -1,0 +1,12 @@
+.play-button{
+    background-color: var(--primary-orange-color);
+    // padding: 12px; 
+    border-radius: 50%;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    &:hover{
+        background-color: #ff3300;
+    }
+}

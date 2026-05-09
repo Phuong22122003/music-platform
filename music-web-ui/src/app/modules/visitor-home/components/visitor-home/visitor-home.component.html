@@ -1,0 +1,396 @@
+<div class="w-[1240px] max-w-[calc(100% - 24px)] mx-auto my-[32px]">
+  <!-- Slider -->
+  <div class="w-full rounded-2xl relative overflow-hidden">
+    <div
+      #slider
+      class="h-[450px] w-[400%] flex transition-transform duration-300"
+    >
+      <div class="h-full w-[25%]">
+        <img
+          class="w-full h-full object-cover rounded-2xl"
+          src="assets/images/front-hero-artist-fan.jpeg"
+          alt=""
+        />
+      </div>
+      <div class="h-full w-[25%]">
+        <img
+          class="w-full h-full object-cover rounded-2xl"
+          src="assets/images/front-hero-artist.jpeg"
+          alt=""
+        />
+      </div>
+      <div class="h-full w-[25%]">
+        <img
+          class="w-full h-full object-cover rounded-2xl"
+          src="assets/images/front-hero-fan.jpeg"
+          alt=""
+        />
+      </div>
+    </div>
+    <div
+      class="absolute bottom-[24px] left-1/2 -translate-x-1/2 flex gap-[18px]"
+    >
+      @for (item of [].constructor(sliderQuantity); track $index) {
+      <span
+        (click)="onClickSliderIndex($index)"
+        [ngClass]="{ 'bg-white': $index === sliderCount }"
+        class="cursor-pointer hover:bg-white inline-block w-[16px] h-[16px] border-[2px] border-[#ccc] rounded-full"
+      ></span>
+      }
+    </div>
+    <div class="flex absolute top-8 right-8 gap-[12px] items-center">
+      <button
+        (click)="onShowAuthModal()"
+        type="button"
+        class="cursor-pointer bg-white px-[15px] py-[4px] rounded"
+      >
+        Sign in
+      </button>
+      <button
+        (click)="onShowAuthModal()"
+        type="button"
+        class="cursor-pointer bg-[var(--primary-orange-color)] px-4 py-[4px] rounded text-white"
+      >
+        Create account
+      </button>
+      <a [routerLink]="['']" class="cursor-pointer text-white">For Artists</a>
+    </div>
+  </div>
+  <!-- Action -->
+  <div class="mt-[50px] w-[68%] mx-auto flex items-center gap-[14px]">
+    <form action="" class="relative w-[600px] max-w-[70%]">
+      <input
+        type="text"
+        placeholder="Search for artist, bands, tracks, podcasts"
+        class="w-full outline-none px-4 py-3 bg-[#f2f2f2] rounded"
+      />
+      <button
+        class="cursor-pointer absolute right-[4px] top-1/2 transform -translate-1/2"
+        type="button"
+      >
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+    <span>or</span>
+    <a
+      [routerLink]="['']"
+      class="text-base px-[23px] py-[13px] bg-[var(--primary-orange-color)] text-white rounded l"
+      >Upload your own</a
+    >
+  </div>
+  <!-- Trending Tracks -->
+  <div class="mt-32">
+    <span class="text-2xl text-center block"
+      >Hear what's trending for free in the SoundCloud community</span
+    >
+    <div class="grid grid-cols-4 xl:grid-cols-6 mt-[30px]">
+      <div class="w-fit flex flex-col cursor-pointer">
+        <div
+          class="group relative w-fit bg-gray-200 shadow-[inset_0_-4px_8px_rgba(0,0,0,0.3)] rounded-lg overflow-hidden"
+        >
+          <img
+            class="image-trending-track w-[180px] h-[180px] object-cover"
+            src="../../../../../assets/images/city.jpg"
+            alt=""
+          />
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--primary-orange-color)] hover:bg-[#ff3300] p-3 rounded-full"
+          >
+            <img
+              class="w-6 h-6"
+              src="../../../../../assets/icons/play.svg"
+              alt=""
+            />
+          </div>
+
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 absolute bottom-2 right-2 text-white text-[12px]"
+          >
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-user-plus"></i>
+            <i class="fa-solid fa-ellipsis"></i>
+          </div>
+        </div>
+
+        <span class="font-[100] text-[#333333] mt-1">UP ALL NIGHT</span>
+        <span class="font-[100] text-[12px] text-[#999999] hover:text-black"
+          >Henry hermes</span
+        >
+      </div>
+      <div class="w-fit flex flex-col cursor-pointer">
+        <div
+          class="group relative w-fit bg-gray-200 shadow-[inset_0_-4px_8px_rgba(0,0,0,0.3)] rounded-lg overflow-hidden"
+        >
+          <img
+            class="image-trending-track w-[180px] h-[180px] object-cover"
+            src="../../../../../assets/images/city.jpg"
+            alt=""
+          />
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--primary-orange-color)] hover:bg-[#ff3300] p-3 rounded-full"
+          >
+            <img
+              class="w-6 h-6"
+              src="../../../../../assets/icons/play.svg"
+              alt=""
+            />
+          </div>
+
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 absolute bottom-2 right-2 text-white text-[12px]"
+          >
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-user-plus"></i>
+            <i class="fa-solid fa-ellipsis"></i>
+          </div>
+        </div>
+
+        <span class="font-[100] text-[#333333] mt-1">UP ALL NIGHT</span>
+        <span class="font-[100] text-[12px] text-[#999999] hover:text-black"
+          >Henry hermes</span
+        >
+      </div>
+      <div class="w-fit flex flex-col cursor-pointer">
+        <div
+          class="group relative w-fit bg-gray-200 shadow-[inset_0_-4px_8px_rgba(0,0,0,0.3)] rounded-lg overflow-hidden"
+        >
+          <img
+            class="image-trending-track w-[180px] h-[180px] object-cover"
+            src="../../../../../assets/images/city.jpg"
+            alt=""
+          />
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--primary-orange-color)] hover:bg-[#ff3300] p-3 rounded-full"
+          >
+            <img
+              class="w-6 h-6"
+              src="../../../../../assets/icons/play.svg"
+              alt=""
+            />
+          </div>
+
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 absolute bottom-2 right-2 text-white text-[12px]"
+          >
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-user-plus"></i>
+            <i class="fa-solid fa-ellipsis"></i>
+          </div>
+        </div>
+
+        <span class="font-[100] text-[#333333] mt-1">UP ALL NIGHT</span>
+        <span class="font-[100] text-[12px] text-[#999999] hover:text-black"
+          >Henry hermes</span
+        >
+      </div>
+      <div class="w-fit flex flex-col cursor-pointer">
+        <div
+          class="group relative w-fit bg-gray-200 shadow-[inset_0_-4px_8px_rgba(0,0,0,0.3)] rounded-lg overflow-hidden"
+        >
+          <img
+            class="image-trending-track w-[180px] h-[180px] object-cover"
+            src="../../../../../assets/images/city.jpg"
+            alt=""
+          />
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--primary-orange-color)] hover:bg-[#ff3300] p-3 rounded-full"
+          >
+            <img
+              class="w-6 h-6"
+              src="../../../../../assets/icons/play.svg"
+              alt=""
+            />
+          </div>
+
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 absolute bottom-2 right-2 text-white text-[12px]"
+          >
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-user-plus"></i>
+            <i class="fa-solid fa-ellipsis"></i>
+          </div>
+        </div>
+
+        <span class="font-[100] text-[#333333] mt-1">UP ALL NIGHT</span>
+        <span class="font-[100] text-[12px] text-[#999999] hover:text-black"
+          >Henry hermes</span
+        >
+      </div>
+      <div class="w-fit flex flex-col cursor-pointer">
+        <div
+          class="group relative w-fit bg-gray-200 shadow-[inset_0_-4px_8px_rgba(0,0,0,0.3)] rounded-lg overflow-hidden"
+        >
+          <img
+            class="image-trending-track w-[180px] h-[180px] object-cover"
+            src="../../../../../assets/images/city.jpg"
+            alt=""
+          />
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--primary-orange-color)] hover:bg-[#ff3300] p-3 rounded-full"
+          >
+            <img
+              class="w-6 h-6"
+              src="../../../../../assets/icons/play.svg"
+              alt=""
+            />
+          </div>
+
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 absolute bottom-2 right-2 text-white text-[12px]"
+          >
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-user-plus"></i>
+            <i class="fa-solid fa-ellipsis"></i>
+          </div>
+        </div>
+
+        <span class="font-[100] text-[#333333] mt-1">UP ALL NIGHT</span>
+        <span class="font-[100] text-[12px] text-[#999999] hover:text-black"
+          >Henry hermes</span
+        >
+      </div>
+      <div class="w-fit flex flex-col cursor-pointer">
+        <div
+          class="group relative w-fit bg-gray-200 shadow-[inset_0_-4px_8px_rgba(0,0,0,0.3)] rounded-lg overflow-hidden"
+        >
+          <img
+            class="image-trending-track w-[180px] h-[180px] object-cover"
+            src="../../../../../assets/images/city.jpg"
+            alt=""
+          />
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--primary-orange-color)] hover:bg-[#ff3300] p-3 rounded-full"
+          >
+            <img
+              class="w-6 h-6"
+              src="../../../../../assets/icons/play.svg"
+              alt=""
+            />
+          </div>
+
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 absolute bottom-2 right-2 text-white text-[12px]"
+          >
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-user-plus"></i>
+            <i class="fa-solid fa-ellipsis"></i>
+          </div>
+        </div>
+
+        <span class="font-[100] text-[#333333] mt-1">UP ALL NIGHT</span>
+        <span class="font-[100] text-[12px] text-[#999999] hover:text-black"
+          >Henry hermes</span
+        >
+      </div>
+      <div class="w-fit flex flex-col cursor-pointer">
+        <div
+          class="group relative w-fit bg-gray-200 shadow-[inset_0_-4px_8px_rgba(0,0,0,0.3)] rounded-lg overflow-hidden"
+        >
+          <img
+            class="image-trending-track w-[180px] h-[180px] object-cover"
+            src="../../../../../assets/images/city.jpg"
+            alt=""
+          />
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--primary-orange-color)] hover:bg-[#ff3300] p-3 rounded-full"
+          >
+            <img
+              class="w-6 h-6"
+              src="../../../../../assets/icons/play.svg"
+              alt=""
+            />
+          </div>
+
+          <div
+            class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 absolute bottom-2 right-2 text-white text-[12px]"
+          >
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-user-plus"></i>
+            <i class="fa-solid fa-ellipsis"></i>
+          </div>
+        </div>
+
+        <span class="font-[100] text-[#333333] mt-1">UP ALL NIGHT</span>
+        <span class="font-[100] text-[12px] text-[#999999] hover:text-black"
+          >Henry hermes</span
+        >
+      </div>
+    </div>
+    <a
+      [routerLink]="['/discover']"
+      class="px-[23px] py-[13px] rounded block mx-auto w-fit text-white text-[18px] bg-[var(--primary-orange-color)]"
+      >Explore trending playlists</a
+    >
+  </div>
+  <div
+    class="mt-[70px] bg-[#f2f2f2] flex px-[70px] justify-between h-[450px] py-[70px]"
+  >
+    <div class="">
+      <img src="assets/images/never_stop_listening.jpg" alt="" />
+    </div>
+    <div class="w-[29%] self-center">
+      <span class="text-[36px] text-[#3333333]">Never stop listening </span>
+      <div
+        class="mt-[15px] mb-[17px] w-[70px] h-[3px] bg-gradient-to-r from-[#7D01A1] via-[#FF3300] to-[#FF5500]"
+      ></div>
+      <span class="text-[24px] text-[#333333]"
+        >SoundCloud is available on Web, iOS, Android, Sonos, Chromecast, and
+        Xbox One.</span
+      >
+      <div class="mt-[28px] flex">
+        <a class="mr-2" [routerLink]="['']"
+          ><img src="assets/icons/appstore_badge.png" alt=""
+        /></a>
+        <a [routerLink]="['']"
+          ><img src="assets/icons/google_play_badge.png" alt=""
+        /></a>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="relative">
+      <div
+        class="absolute text-white flex flex-col w-[42%] pl-[70px] top-1/2 transform -translate-y-1/2"
+      >
+        <span class="text-[36px]">Calling all creators</span>
+        <span class="text-[24px] mt-[11px] mb-[26px]"
+          >Get on SoundCloud to connect with fans, share your sounds, and grow
+          your audience. What are you waiting for?</span
+        >
+        <a
+          [routerLink]="['']"
+          class="w-fit text-[18px] px-[24px] py-[13px] border-1 border-[#fff]"
+          >Find out more</a
+        >
+      </div>
+      <img
+        src="assets/images/hp_creator_image_featured_artists.jpg"
+        class=""
+        alt=""
+      />
+    </div>
+  </div>
+  <div class="flex flex-col items-center py-[70px]">
+    <span class="text-[36px] text-[#333333]"
+      >Thanks for listening. Now join in.</span
+    >
+    <span class="text-[24px] text-[#333333] mt-[7px] mb-[10px]"
+      >Save tracks, follow artists and build playlists. All for free.</span
+    >
+    <button
+      (click)="onShowAuthModal()"
+      class="cursor-pointer flex items-center justify-center my-[10px] text-[18px] rounded w-[200px] h-[46px] px-[23px] py-[13px] text-white bg-[var(--primary-orange-color)]"
+    >
+      Create account
+    </button>
+    <div>
+      <span class="text-[12px]">Already have an account?</span>
+      <button
+        (click)="onShowAuthModal()"
+        class="hover:border-black cursor-pointer ml-[15px] px-[15px] py-[10px] border-1 border-[#e5e5e5] rounded"
+      >
+        Sign in
+      </button>
+    </div>
+  </div>
+</div>

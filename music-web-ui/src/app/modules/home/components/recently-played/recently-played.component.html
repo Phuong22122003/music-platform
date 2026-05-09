@@ -1,0 +1,13 @@
+<app-card-list *ngIf="tracks">
+  <div class="flex gap-4">
+    @for (track of tracks; track $index) {
+    <app-track-card
+      class="flex-grow"
+      [isLiked]="track.isLiked || false"
+      [track]="track"
+    ></app-track-card>
+    } @for (_ of placeholders; track $index) {
+    <app-track-card class="flex-grow"></app-track-card>
+    }
+  </div>
+</app-card-list>

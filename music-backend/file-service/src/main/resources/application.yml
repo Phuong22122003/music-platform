@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: file-service
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 200MB
+  datasource:
+    url: ${DBMS_CONNECTION_URL:jdbc:sqlserver://localhost:1433;databaseName=File;encrypt=true;trustServerCertificate=true}
+    username: ${DBMS_CONNECTION_USERNAME:sa}
+    password: ${DBMS_CONNECTION_PASSWORD:123456789}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    defer-datasource-initialization: true
+server:
+  port: 8083
+  servlet:
+    context-path: /file-service
+file:
+  upload-dir: ./file-service/file
+  musics-dir: musics
+  avatars-dir: avatars
+  covers-dir: covers
+
+springdoc:
+  override-with-generic-response: false

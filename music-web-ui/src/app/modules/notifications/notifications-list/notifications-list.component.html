@@ -1,0 +1,142 @@
+<div
+  class="container mx-auto px-4 py-8 max-w-4xl"
+  infiniteScroll
+  [infiniteScrollDistance]="scrollDistance"
+  [infiniteScrollUpDistance]="scrollUpDistance"
+  [infiniteScrollThrottle]="throttle"
+  (scrolled)="onScrollDown()"
+>
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Notifications</h1>
+    <div class="flex gap-4">
+      <!-- Filter Buttons -->
+      <div class="flex rounded-lg border border-gray-200">
+        <button
+          (click)="filterNotifications('all')"
+          [class.bg-gray-100]="currentFilter === 'all'"
+          class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-l-lg"
+        >
+          All
+        </button>
+        <button
+          (click)="filterNotifications('unread')"
+          [class.bg-gray-100]="currentFilter === 'unread'"
+          class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-r-lg border-l"
+        >
+          Unread
+        </button>
+      </div>
+      <!-- Mark All as Read Button -->
+      <button
+        (click)="markAllAsRead()"
+        class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+      >
+        Mark all as read
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading && notifications.length === 0" class="text-center py-8">
+    <div
+      class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 mx-auto"
+    ></div>
+    <p class="mt-4 text-gray-600">Loading notifications...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && notifications.length === 0" class="text-center py-12">
+    <div class="text-gray-400 mb-4">
+      <i class="fa-regular fa-bell text-6xl"></i>
+    </div>
+    <h3 class="text-xl font-medium text-gray-900 mb-2">No notifications yet</h3>
+    <p class="text-gray-600">
+      When you get notifications, they'll show up here
+    </p>
+  </div>
+
+  <!-- Notifications List -->
+  <div class="space-y-4">
+    <div
+      *ngFor="let notification of notifications"
+      [class.bg-white]="notification.read"
+      [class.bg-blue-50]="!notification.read"
+      class="p-4 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors duration-200 notification-item"
+      (click)="markAsRead(notification)"
+    >
+      <div class="flex items-start gap-4">
+        <!-- User Avatar -->
+        <img
+          [src]="
+            notification.sender.avatar
+              ? avatarUrl + '/' + notification.sender.avatar
+              : '/assets/images/user-placeholder.jpg'
+          "
+          [alt]="notification.sender.displayName + '\'s avatar'"
+          [title]="notification.sender.displayName + '\'s profile picture'"
+          class="w-12 h-12 rounded-full object-cover"
+        />
+
+        <!-- Notification Content -->
+        <div class="flex-1 min-w-0">
+          <div class="flex items-baseline gap-1 flex-wrap">
+            <span class="font-medium text-gray-900">{{
+              notification.sender.displayName
+            }}</span>
+            <span class="text-gray-600">{{
+              notificationType(notification)
+            }}</span>
+          </div>
+
+          <!-- Track Preview if available -->
+
+          <p class="text-sm text-gray-500 mt-1">
+            {{ getTimeAgo(notification.createdAt) }}
+          </p>
+
+          <!-- Follow/Unfollow Button for Follow Notifications -->
+          <div *ngIf="notification.type === 'follow'" class="mt-2">
+            <button
+              (click)="toggleFollow($event, notification.sender.userId)"
+              class="px-4 py-1 rounded text-sm font-medium"
+              [class.bg-[#f50]_text-white]="
+                !followingMap[notification.sender.userId]
+              "
+              [class.border_border-gray-300_text-gray-700]="
+                followingMap[notification.sender.userId]
+              "
+            >
+              {{
+                followingMap[notification.sender.userId]
+                  ? "Following"
+                  : "Follow"
+              }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Unread Indicator -->
+        <div
+          *ngIf="!notification.read"
+          class="w-2 h-2 rounded-full bg-blue-500 mt-2"
+        ></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading More Indicator -->
+  <div *ngIf="loading && notifications.length > 0" class="text-center py-4">
+    <div
+      class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto"
+    ></div>
+  </div>
+
+  <!-- No More Notifications -->
+  <div
+    *ngIf="!loading && !hasMore && notifications.length > 0"
+    class="text-center py-4 text-gray-600"
+  >
+    No more notifications
+  </div>
+</div>

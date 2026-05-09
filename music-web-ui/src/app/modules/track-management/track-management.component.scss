@@ -1,0 +1,49 @@
+.example-container {
+  width: auto;
+
+
+  border: 1px solid #555;
+  /* The background property is added to clearly distinguish the borders between drawer and main
+     content */
+  background: #eee;
+}
+.nav {
+  width: 90px;
+  border-radius: 0;
+}
+
+.edit-track {
+  border-radius: 0;
+  min-width: 40vw;
+  z-index: 1300 !important;
+
+}
+
+.icon-wrap {
+  cursor: pointer;
+}
+
+.icon-wrap .icon {
+  transition: all 0.25s;
+}
+
+.icon-wrap:hover .icon {
+  transform: translateY(-12px);
+}
+
+.icon-wrap .text {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  transition: all 0.25s;
+
+}
+
+.icon-wrap:hover .text {
+  opacity: 100;
+}
+
+.mat-mdc-unelevated-button:not(:disabled) {
+  background-color: black;
+}
+
