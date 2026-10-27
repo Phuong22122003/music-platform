@@ -104,7 +104,7 @@ services:
             - redis-data:/data
 
     mongodb-notification:
-        image: bitnami/mongodb:8.0.5-debian-12-r0
+        image: soldevelo/mongodb:8.0.13-debian-12-r0
         container_name: mongodb-notification
         ports:
         - 27017:27017
